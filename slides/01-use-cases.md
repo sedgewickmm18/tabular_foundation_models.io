@@ -89,13 +89,16 @@ complexity of the underlying mechanism.
 ### Mathematical Formulation
 
 Given dataset with missing values:
-$$X = [X_{obs}, X_{miss}]$$
+
+<img src="assets/images/math/missing_data_matrix.svg" alt="X = [X_obs, X_miss]" style="display: block; margin: 0.5em auto; max-width: 60%;">
 
 **Goal**: Estimate the conditional distribution
-$$P(X_{miss} | X_{obs}, \theta)$$
+
+<img src="assets/images/math/missing_data_goal.svg" alt="P(X_miss | X_obs, theta)" style="display: block; margin: 0.5em auto; max-width: 60%;">
 
 **Foundation Model Approach**:
-$$P(X_{miss} | X_{obs}) \approx f_\theta(X_{obs})$$
+
+<img src="assets/images/math/missing_data_approach.svg" alt="P(X_miss | X_obs) approx f_theta(X_obs)" style="display: block; margin: 0.5em auto; max-width: 70%;">
 
 where $\theta$ is learned from meta-training on diverse synthetic datasets
 
@@ -233,17 +236,19 @@ mechanism allows them to understand what's "normal" for a specific dataset.
 ### Anomaly Detection: Math
 
 **Anomaly Score** based on likelihood:
-$$s(x) = -\log P(x | X_{context}, \theta)$$
+
+<img src="assets/images/math/anomaly_score.svg" alt="s(x) = -log P(x | X_context, theta)" style="display: block; margin: 0.5em auto; max-width: 70%;">
 
 Where:
-- $x$: test instance
-- $X_{context}$: normal examples (context)
-- $\theta$: foundation model parameters
+- *x*: test instance
+- *X<sub>context</sub>*: normal examples (context)
+- *θ*: foundation model parameters
 
 **Decision Rule**:
-$$x \text{ is anomaly if } s(x) > \tau$$
 
-where $\tau$ is a threshold (can be learned or set based on desired false positive rate)
+<img src="assets/images/math/anomaly_decision.svg" alt="x is anomaly if s(x) > tau" style="display: block; margin: 0.5em auto; max-width: 60%;">
+
+where *τ* is a threshold (can be learned or set based on desired false positive rate)
 
 **Advantages**:
 - Probabilistic interpretation

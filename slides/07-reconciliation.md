@@ -20,9 +20,9 @@ the mathematical techniques for reconciling predictions from multiple windows.
 
 ### Memory Constraints in Transformers
 
-**Transformer Memory Complexity**: $O(n^2 \cdot d)$
-- $n$: sequence length (number of rows)
-- $d$: model dimension
+**Transformer Memory Complexity**: <img src="assets/images/math/transformer_memory.svg" alt="O(n^2 * d)" style="display: inline; vertical-align: middle; height: 1.2em; margin: 0 0.2em;">
+- *n*: sequence length (number of rows)
+- *d*: model dimension
 - Each attention layer requires quadratic memory
 
 **Context Window Limitations**:
@@ -69,9 +69,11 @@ because the model cannot see the full pattern across the boundary.
 
 <!-- Vertical Slide: Sliding Window Chunking -->
 ## Sliding Window Chunking
+<div style="font-size: 0.85em;">
+
 ### Triple Overlap Strategy
 
-<img src="assets/images/sliding_window_chunking.svg" alt="Sliding Window Chunking" style="width: 50%; margin: 10px auto; display: block;">
+<img src="assets/images/sliding_window_chunking.svg" alt="Sliding Window Chunking" style="width: 45%; margin: 8px auto; display: block;">
 
 **Concept**: Overlapping windows ensure complete coverage
 - Each missing value is seen in **3 different contexts**:
@@ -87,6 +89,8 @@ because the model cannot see the full pattern across the boundary.
 **Challenge**: How to combine multiple predictions?
 → **Reconciliation** is needed!
 
+</div>
+
 Note:
 The sliding window approach generates multiple predictions for each missing
 value. The target hole at index 5 is covered by three different windows,
@@ -101,13 +105,13 @@ these predictions.
 
 **The Weighting Formula**:
 
-$$w_j = \exp\left(-\frac{(i - c_j)^2}{2\sigma^2}\right)$$
+<img src="assets/images/math/gaussian_weight.svg" alt="Gaussian weight formula" style="display: block; margin: 1em auto; max-width: 80%;">
 
 Where:
-- $w_j$: weight for window $j$
-- $i$: index of the missing value
-- $c_j$: center position of window $j$
-- $\sigma$: standard deviation (controls decay rate)
+- *w<sub>j</sub>*: weight for window *j*
+- *i*: index of the missing value
+- *c<sub>j</sub>*: center position of window *j*
+- *σ*: standard deviation (controls decay rate)
 
 **Intuition**: 
 - Missing values at the **center** of a window receive **highest weight**
@@ -133,13 +137,13 @@ in both directions.
 
 **Mathematical Formula**:
 
-$$P(x_i) = \sum_{j=1}^{n} w_j \cdot P(x_i | \mathcal{C}_j)$$
+<img src="assets/images/math/linear_opinion_pool.svg" alt="Linear Opinion Pool formula" style="display: block; margin: 1em auto; max-width: 80%;">
 
 Where:
-- $P(x_i)$: final probability for missing value $x_i$
-- $P(x_i | \mathcal{C}_j)$: probability from window $j$ with context $\mathcal{C}_j$
-- $w_j$: Gaussian weight for window $j$
-- $\sum_{j=1}^{n} w_j = 1$ (normalized weights)
+- *P(x<sub>i</sub>)*: final probability for missing value *x<sub>i</sub>*
+- *P(x<sub>i</sub> | C<sub>j</sub>)*: probability from window *j* with context *C<sub>j</sub>*
+- *w<sub>j</sub>*: Gaussian weight for window *j*
+- Σ*w<sub>j</sub>* = 1 (normalized weights)
 
 **Characteristics**:
 - **Averaging** of probability distributions
@@ -162,11 +166,11 @@ traditional machine learning, where multiple models vote on the outcome.
 
 **Mathematical Formula**:
 
-$$\log P(x_i) = \sum_{j=1}^{n} w_j \cdot \log P(x_i | \mathcal{C}_j) + \text{const}$$
+<img src="assets/images/math/log_opinion_pool.svg" alt="Log Opinion Pool formula" style="display: block; margin: 1em auto; max-width: 80%;">
 
 **Equivalent to** (after normalization):
 
-$$P(x_i) \propto \prod_{j=1}^{n} P(x_i | \mathcal{C}_j)^{w_j}$$
+<img src="assets/images/math/log_opinion_pool_product.svg" alt="Log Opinion Pool product form" style="display: block; margin: 1em auto; max-width: 80%;">
 
 **Characteristics**:
 - **Product** of probability distributions (in log space)
@@ -318,7 +322,7 @@ def reconcile_predictions(windows, missing_index, sigma=1.0):
 ```
 
 **Key Implementation Details**:
-- Add small \\(\epsilon\\) (e.g., \\(10^{-10}\\)) to avoid \\(\log(0)\\)
+- Add small <img src="assets/images/math/epsilon.svg" alt="epsilon" style="display: inline; vertical-align: middle; height: 1em; margin: 0 0.1em;"> (e.g., <img src="assets/images/math/ten_to_minus_ten.svg" alt="10^-10" style="display: inline; vertical-align: middle; height: 1em; margin: 0 0.1em;">) to avoid <img src="assets/images/math/log_zero.svg" alt="log(0)" style="display: inline; vertical-align: middle; height: 1em; margin: 0 0.1em;">
 - Normalize weights to sum to 1
 - Final normalization ensures valid probability distribution
 

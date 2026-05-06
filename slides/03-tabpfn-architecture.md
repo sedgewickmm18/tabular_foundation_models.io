@@ -70,10 +70,10 @@ data where both feature interactions and example-based learning are crucial.
 ## Mathematical Formulation
 
 ### Bayesian Perspective
-$$P(y|x, D_{train}) = \int P(y|x, \theta) P(\theta|D_{train}) d\theta$$
+<img src="assets/images/math/bayesian_perspective.svg" alt="Bayesian perspective formula" style="display: block; margin: 1em auto; max-width: 80%;">
 
 ### Prior-Fitted Approach
-$$P(\theta|D_{train}) \approx q_\phi(D_{train})$$
+<img src="assets/images/math/prior_fitted.svg" alt="Prior-fitted approach formula" style="display: block; margin: 1em auto; max-width: 80%;">
 
 where $\phi$ is learned through meta-training
 

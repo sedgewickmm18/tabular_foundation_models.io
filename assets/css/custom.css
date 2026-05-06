@@ -142,35 +142,15 @@
     background-color: #e0f2fe;
 }
 
-/* Math equations - Fixed pixel sizing to prevent growth */
-.reveal .MathJax {
-    font-size: 20px !important;
-    max-width: 100% !important;
-    color: var(--text-color);
-}
-
-.reveal .MathJax_Display {
-    font-size: 20px !important;
-    max-width: 100% !important;
-    margin: 0.5em 0 !important;
-}
-
-/* Also target modern MathJax 3 containers for compatibility */
-.reveal mjx-container {
-    font-size: 20px !important;
-    max-width: 100% !important;
-}
-
-.reveal mjx-container[display="true"] {
-    font-size: 20px !important;
-    max-width: 100% !important;
-    margin: 0.5em 0 !important;
-}
-
-/* Lock down SVG elements inside MathJax */
-.reveal mjx-container svg {
-    max-width: 100% !important;
-    max-height: 100% !important;
+/* Math equation SVG images */
+.reveal img[alt*="formula"],
+.reveal img[alt*="equation"] {
+    display: block;
+    margin: 1em auto;
+    max-width: 80%;
+    border: none;
+    box-shadow: none;
+    background: transparent;
 }
 
 /* Blockquotes */

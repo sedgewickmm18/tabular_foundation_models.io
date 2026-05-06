@@ -67,13 +67,6 @@
                      data-separator-notes="^Note:">
             </section>
             
-            <!-- Training Methodology Section -->
-            <section data-markdown="slides/05-training-methodology.md"
-                     data-separator="^\n---\n$"
-                     data-separator-vertical="^\n--\n$"
-                     data-separator-notes="^Note:">
-            </section>
-            
             <!-- Code Examples Section -->
             <section data-markdown="slides/06-code-examples.md"
                      data-separator="^\n---\n$"
@@ -95,15 +88,15 @@
                      data-separator-notes="^Note:">
             </section>
             
-            <!-- Benchmarks Section -->
-            <section data-markdown="slides/09-benchmarks.md"
+            <!-- Limitations Section -->
+            <section data-markdown="slides/10-limitations.md"
                      data-separator="^\n---\n$"
                      data-separator-vertical="^\n--\n$"
                      data-separator-notes="^Note:">
             </section>
             
-            <!-- Limitations Section -->
-            <section data-markdown="slides/10-limitations.md"
+            <!-- Appendix: Benchmarks Section -->
+            <section data-markdown="slides/11-appendix-benchmarks.md"
                      data-separator="^\n---\n$"
                      data-separator-vertical="^\n--\n$"
                      data-separator-notes="^Note:">
@@ -135,7 +128,6 @@
     <script src="https://cdn.jsdelivr.net/npm/reveal.js@5.0.4/plugin/notes/notes.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/reveal.js@5.0.4/plugin/markdown/markdown.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/reveal.js@5.0.4/plugin/highlight/highlight.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/reveal.js@5.0.4/plugin/math/math.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/reveal.js@5.0.4/plugin/zoom/zoom.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/reveal.js@5.0.4/plugin/search/search.js"></script>
     
@@ -259,32 +251,11 @@
             pdfMaxPagesPerSlide: 1,
             pdfSeparateFragments: true,
             
-            // Math plugin configuration
-            math: {
-                mathjax: 'https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js',
-                config: 'TeX-AMS_HTML-full',
-                tex: {
-                    inlineMath: [['$', '$'], ['\\(', '\\)']],
-                    displayMath: [['$$', '$$'], ['\\[', '\\]']],
-                    processEscapes: true,
-                    processEnvironments: true
-                },
-                chtml: {
-                    scale: 0.85,
-                    matchFontHeight: false,
-                    mtextInheritFont: false
-                },
-                options: {
-                    skipHtmlTags: ['script', 'noscript', 'style', 'textarea', 'pre']
-                }
-            },
-            
             // Reveal.js plugins
             plugins: [
                 RevealMarkdown,
                 RevealHighlight,
                 RevealNotes,
-                RevealMath.MathJax3,
                 RevealZoom,
                 RevealSearch
             ]
