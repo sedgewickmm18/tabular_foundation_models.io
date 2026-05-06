@@ -17,42 +17,60 @@ extending its capabilities to handle larger and more complex datasets.
 <!-- Vertical Slide: Architectural Differences -->
 ## Architectural Enhancements
 
-### Scalability Improvements
-- Efficient attention mechanisms
-- Better memory management
-- Optimized for larger context windows
+<div style="text-align: center;">
+  <img src="assets/images/architecture_comparison.png" alt="TabPFN vs TabICL Architecture" style="max-width: 65%; max-height: 45vh;">
+</div>
 
-### Performance Gains
-- Improved accuracy on benchmarks
-- Better handling of complex patterns
-- Enhanced uncertainty quantification
+<div style="font-size: 0.85em;">
 
-### Practical Benefits
-- Faster inference
-- Lower memory footprint
-- Easier deployment
+- **Stage 1 (Row Embedder)**: Acts as a specialized pre-processor that looks only at features of a single row and "summarizes" them into a single mathematical vector (a "token")
+- **Stage 2 (Sequential ICL)**: Treats the dataset exactly like an LLM treats a sentence - instead of a sequence of words, it sees a sequence of row tokens
+- **Impact**: The main Transformer in Stage 2 never sees the original features, only the summaries. This allows it to handle much larger datasets (more rows) because it is no longer distracted by high feature counts
+
+</div>
 
 Note:
-The architectural improvements make TabICL more practical for
-real-world applications while maintaining the ease of use of TabPFN.
+The two-stage architecture separates feature processing from sequential learning, enabling better scalability and performance.
 
 --
 
 <!-- Vertical Slide: Mathematical Improvements -->
 ## Mathematical Enhancements
 
-### Enhanced Prior Distribution
-More expressive prior over datasets
+<div style="display: flex; gap: 20px; font-size: 0.8em;">
 
-### Improved Attention Mechanism
-Better capture of feature interactions
+<div style="flex: 1; border: 2px solid #C1121F; padding: 15px; border-radius: 8px; background-color: #FFF5F5;">
 
-### Optimization Improvements
-More stable training and better convergence
+**TabPFN: Binned Classification Approach**
+
+TabPFN does not treat regression as a continuous value prediction. Instead, it turns regression into a classification problem:
+
+- **Mechanism**: It discretizes the target variable into a fixed number of bins (buckets)
+- **Loss**: It applies Cross-Entropy Loss over these bins
+- **Benefit**: This allows the model to predict a full probability distribution (e.g., "The value is 60% likely to be in bin A and 40% in bin B"), which naturally handles uncertainty
+
+</div>
+
+<div style="flex: 1; border: 2px solid #2D6A4F; padding: 15px; border-radius: 8px; background-color: #F0FFF4;">
+
+**TabICL v2: Quantile Regression**
+
+TabICL v2 moved away from binning to use Quantile Regression:
+
+- **Mechanism**: The model predicts a high number of individual quantiles (typically 999 levels)
+- **Loss**: It uses Pinball Loss (also known as Quantile Loss) summed across all 999 levels
+- **Benefit**: It avoids the "resolution" issues of fixed bins. By averaging these 999 quantiles at inference time, it produces a highly accurate and flexible point estimate while still providing a dense picture of the prediction's uncertainty
+
+</div>
+
+</div>
+
+<div style="margin-top: 20px; font-size: 0.75em; text-align: center;">
+Reference: <a href="https://arxiv.org/html/2602.11139v1" target="_blank">https://arxiv.org/html/2602.11139v1</a>
+</div>
 
 Note:
-The mathematical improvements lead to better generalization and
-more reliable predictions across diverse datasets.
+The shift from binned classification to quantile regression represents a fundamental improvement in how TabICL handles regression tasks, providing better accuracy and uncertainty quantification.
 
 --
 
