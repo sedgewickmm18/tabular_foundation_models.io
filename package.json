@@ -1,0 +1,28 @@
+{
+  "name": "tabular-foundation-models-presentation",
+  "version": "1.0.0",
+  "description": "Reveal.js presentation on foundation models for tabular data (TabPFN and TabICL)",
+  "main": "index.html",
+  "scripts": {
+    "start": "npx http-server -p 8000 -o",
+    "dev": "npx http-server -p 8000 -o",
+    "install-reveal": "npm install reveal.js"
+  },
+  "keywords": [
+    "reveal.js",
+    "presentation",
+    "TabPFN",
+    "TabICL",
+    "foundation-models",
+    "machine-learning",
+    "tabular-data"
+  ],
+  "author": "",
+  "license": "MIT",
+  "dependencies": {
+    "reveal.js": "^5.0.4"
+  },
+  "devDependencies": {
+    "http-server": "^14.1.1"
+  }
+}
