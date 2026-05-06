@@ -1,0 +1,342 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Foundation Models for Tabular Data: TabPFN and TabICL">
+    <meta name="author" content="">
+    
+    <title>Foundation Models for Tables: TabPFN & TabICL</title>
+    
+    <!-- Reveal.js CSS -->
+    <link rel="stylesheet" href="node_modules/reveal.js/dist/reset.css">
+    <link rel="stylesheet" href="node_modules/reveal.js/dist/reveal.css">
+    <link rel="stylesheet" href="node_modules/reveal.js/dist/theme/white.css" id="theme">
+    
+    <!-- Theme used for syntax highlighting -->
+    <link rel="stylesheet" href="node_modules/reveal.js/plugin/highlight/github.css">
+    
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="assets/css/custom.css">
+    
+    <!-- Mermaid.js for diagrams -->
+    <script src="https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.min.js"></script>
+</head>
+<body>
+    <div class="reveal">
+        <div class="slides">
+            <!-- Title Slide -->
+            <section>
+                <h1>Foundation Models for Tables</h1>
+                <h3>TabPFN and TabICL</h3>
+                <p>
+                    <small>A Deep Dive into Tabular Foundation Models</small>
+                </p>
+                <aside class="notes">
+                    Welcome to this presentation on foundation models for tabular data.
+                    We'll explore TabPFN and its successor TabICL, focusing on their
+                    architecture, training methodology, and practical applications.
+                </aside>
+            </section>
+            
+            <!-- Use Cases Section -->
+            <section data-markdown="slides/01-use-cases.md"
+                     data-separator="^\n---\n$"
+                     data-separator-vertical="^\n--\n$"
+                     data-separator-notes="^Note:">
+            </section>
+            
+            <!-- Introduction Section -->
+            <section data-markdown="slides/02-introduction.md"
+                     data-separator="^\n---\n$"
+                     data-separator-vertical="^\n--\n$"
+                     data-separator-notes="^Note:">
+            </section>
+            
+            <!-- TabPFN Architecture Section -->
+            <section data-markdown="slides/03-tabpfn-architecture.md"
+                     data-separator="^\n---\n$"
+                     data-separator-vertical="^\n--\n$"
+                     data-separator-notes="^Note:">
+            </section>
+            
+            <!-- TabICL Architecture Section -->
+            <section data-markdown="slides/04-tabicl-architecture.md"
+                     data-separator="^\n---\n$"
+                     data-separator-vertical="^\n--\n$"
+                     data-separator-notes="^Note:">
+            </section>
+            
+            <!-- Training Methodology Section -->
+            <section data-markdown="slides/05-training-methodology.md"
+                     data-separator="^\n---\n$"
+                     data-separator-vertical="^\n--\n$"
+                     data-separator-notes="^Note:">
+            </section>
+            
+            <!-- Code Examples Section -->
+            <section data-markdown="slides/06-code-examples.md"
+                     data-separator="^\n---\n$"
+                     data-separator-vertical="^\n--\n$"
+                     data-separator-notes="^Note:">
+            </section>
+            
+            <!-- Reconciliation Section -->
+            <section data-markdown="slides/07-reconciliation.md"
+                     data-separator="^\n---\n$"
+                     data-separator-vertical="^\n--\n$"
+                     data-separator-notes="^Note:">
+            </section>
+            
+            <!-- Fine-tuning Section -->
+            <section data-markdown="slides/08-fine-tuning.md"
+                     data-separator="^\n---\n$"
+                     data-separator-vertical="^\n--\n$"
+                     data-separator-notes="^Note:">
+            </section>
+            
+            <!-- Benchmarks Section -->
+            <section data-markdown="slides/09-benchmarks.md"
+                     data-separator="^\n---\n$"
+                     data-separator-vertical="^\n--\n$"
+                     data-separator-notes="^Note:">
+            </section>
+            
+            <!-- Limitations Section -->
+            <section data-markdown="slides/10-limitations.md"
+                     data-separator="^\n---\n$"
+                     data-separator-vertical="^\n--\n$"
+                     data-separator-notes="^Note:">
+            </section>
+            
+            <!-- Closing Slide -->
+            <section>
+                <h2>Thank You!</h2>
+                <p>Questions?</p>
+                <br>
+                <p>
+                    <small>
+                        Resources:<br>
+                        TabPFN Paper: <a href="https://arxiv.org/abs/2207.01848">arXiv:2207.01848</a><br>
+                        GitHub: <a href="https://github.com/automl/TabPFN">github.com/automl/TabPFN</a>
+                    </small>
+                </p>
+                <aside class="notes">
+                    Thank you for your attention. I'm happy to answer any questions
+                    about foundation models for tabular data, TabPFN, TabICL, or
+                    their practical applications.
+                </aside>
+            </section>
+        </div>
+    </div>
+    
+    <!-- Reveal.js JavaScript -->
+    <script src="node_modules/reveal.js/dist/reveal.js"></script>
+    <script src="node_modules/reveal.js/plugin/notes/notes.js"></script>
+    <script src="node_modules/reveal.js/plugin/markdown/markdown.js"></script>
+    <script src="node_modules/reveal.js/plugin/highlight/highlight.js"></script>
+    <script src="node_modules/reveal.js/plugin/math/math.js"></script>
+    <script src="node_modules/reveal.js/plugin/zoom/zoom.js"></script>
+    <script src="node_modules/reveal.js/plugin/search/search.js"></script>
+    
+    <script>
+        // Reveal.js configuration
+        Reveal.initialize({
+            // Presentation size optimized for 1200x800
+            width: 1200,
+            height: 800,
+            margin: 0.04,
+            
+            // Display presentation control arrows
+            controls: true,
+            
+            // Help the user learn the controls by providing hints
+            controlsTutorial: true,
+            
+            // Determines where controls appear
+            controlsLayout: 'bottom-right',
+            
+            // Display a presentation progress bar
+            progress: true,
+            
+            // Display the page number of the current slide
+            slideNumber: 'c/t',
+            
+            // Add the current slide number to the URL hash
+            hash: true,
+            
+            // Push each slide change to the browser history
+            history: true,
+            
+            // Enable keyboard shortcuts for navigation
+            keyboard: true,
+            
+            // Enable the slide overview mode
+            overview: true,
+            
+            // Vertical centering of slides
+            center: true,
+            
+            // Enables touch navigation on devices with touch input
+            touch: true,
+            
+            // Loop the presentation
+            loop: false,
+            
+            // Change the presentation direction to be RTL
+            rtl: false,
+            
+            // See https://revealjs.com/vertical-slides/#navigation-mode
+            navigationMode: 'default',
+            
+            // Randomizes the order of slides each time the presentation loads
+            shuffle: false,
+            
+            // Turns fragments on and off globally
+            fragments: true,
+            
+            // Flags whether to include the current fragment in the URL
+            fragmentInURL: true,
+            
+            // Flags if the presentation is running in an embedded mode
+            embedded: false,
+            
+            // Flags if we should show a help overlay when the questionmark key is pressed
+            help: true,
+            
+            // Flags if speaker notes should be visible to all viewers
+            showNotes: false,
+            
+            // Global override for autoplaying embedded media (video/audio/iframe)
+            autoPlayMedia: null,
+            
+            // Number of milliseconds between automatically proceeding to the next slide
+            autoSlide: 0,
+            
+            // Stop auto-sliding after user input
+            autoSlideStoppable: true,
+            
+            // Enable slide navigation via mouse wheel
+            mouseWheel: false,
+            
+            // Hide cursor if inactive
+            hideInactiveCursor: true,
+            
+            // Time before cursor is hidden (in ms)
+            hideCursorTime: 5000,
+            
+            // Hides the address bar on mobile devices
+            hideAddressBar: true,
+            
+            // Opens links in an iframe preview overlay
+            previewLinks: false,
+            
+            // Transition style
+            transition: 'slide', // none/fade/slide/convex/concave/zoom
+            
+            // Transition speed
+            transitionSpeed: 'default', // default/fast/slow
+            
+            // Transition style for full page slide backgrounds
+            backgroundTransition: 'fade', // none/fade/slide/convex/concave/zoom
+            
+            // Number of slides away from the current that are visible
+            viewDistance: 3,
+            
+            // Number of slides away from the current that are visible on mobile
+            mobileViewDistance: 2,
+            
+            // Parallax background image
+            parallaxBackgroundImage: '',
+            
+            // Parallax background size
+            parallaxBackgroundSize: '',
+            
+            // The display mode that will be used to show slides
+            display: 'block',
+            
+            // PDF export settings
+            pdfMaxPagesPerSlide: 1,
+            pdfSeparateFragments: true,
+            
+            // Math plugin configuration
+            math: {
+                mathjax: 'https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js',
+                config: 'TeX-AMS_HTML-full',
+                tex: {
+                    inlineMath: [['$', '$'], ['\\(', '\\)']],
+                    displayMath: [['$$', '$$'], ['\\[', '\\]']],
+                    processEscapes: true,
+                    processEnvironments: true
+                },
+                chtml: {
+                    scale: 0.85,
+                    matchFontHeight: false,
+                    mtextInheritFont: false
+                },
+                options: {
+                    skipHtmlTags: ['script', 'noscript', 'style', 'textarea', 'pre']
+                }
+            },
+            
+            // Reveal.js plugins
+            plugins: [
+                RevealMarkdown,
+                RevealHighlight,
+                RevealNotes,
+                RevealMath.MathJax3,
+                RevealZoom,
+                RevealSearch
+            ]
+        });
+        
+        // Initialize Mermaid diagrams after Reveal.js is ready
+        Reveal.on('ready', event => {
+            mermaid.initialize({
+                startOnLoad: false,
+                theme: 'default',
+                themeVariables: {
+                    fontSize: '14px',
+                    primaryColor: '#e1f5ff',
+                    primaryTextColor: '#000',
+                    primaryBorderColor: '#333',
+                    lineColor: '#333',
+                    secondaryColor: '#fff4e1',
+                    tertiaryColor: '#f0e1ff'
+                },
+                flowchart: {
+                    useMaxWidth: true,
+                    htmlLabels: true,
+                    curve: 'basis'
+                }
+            });
+            
+            // Render all mermaid diagrams
+            const mermaidDivs = document.querySelectorAll('.mermaid');
+            mermaidDivs.forEach((div, index) => {
+                const graphDefinition = div.textContent;
+                div.innerHTML = '';
+                mermaid.render(`mermaid-${index}`, graphDefinition).then(result => {
+                    div.innerHTML = result.svg;
+                });
+            });
+        });
+        
+        // Re-render Mermaid on slide change to ensure visibility
+        Reveal.on('slidechanged', event => {
+            const mermaidDivs = event.currentSlide.querySelectorAll('.mermaid');
+            if (mermaidDivs.length > 0) {
+                mermaidDivs.forEach((div, index) => {
+                    if (!div.querySelector('svg')) {
+                        const graphDefinition = div.textContent;
+                        div.innerHTML = '';
+                        mermaid.render(`mermaid-slide-${index}`, graphDefinition).then(result => {
+                            div.innerHTML = result.svg;
+                        });
+                    }
+                });
+            }
+        });
+    </script>
+</body>
+</html>
