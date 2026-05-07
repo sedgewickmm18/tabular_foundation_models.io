@@ -103,17 +103,28 @@ these predictions.
 ## Gaussian Weighting Function
 ### Distance-Based Quality Assessment
 
-**The Weighting Formula**:
+<div style="text-align: center; margin-bottom: 1em;">
+<img src="assets/images/math/gaussian_weight.svg" alt="Gaussian weight formula" style="max-width: 60%;">
+</div>
 
-<img src="assets/images/math/gaussian_weight.svg" alt="Gaussian weight formula" style="display: block; margin: 1em auto; max-width: 80%;">
+<div style="display: flex; gap: 20px; align-items: flex-start;">
 
-Where:
-- *w<sub>j</sub>*: weight for window *j*
-- *i*: index of the missing value
-- *c<sub>j</sub>*: center position of window *j*
-- *σ*: standard deviation (controls decay rate)
+<div style="flex: 1.2;">
 
-**Intuition**: 
+<img src="assets/images/gaussian_decay_plot.png" alt="Gaussian decay visualization" style="display: block; margin: 0 auto; max-width: 100%;">
+
+<div style="font-size: 0.75em; text-align: center; margin-top: 0.5em;">
+<strong>Where:</strong> <em>w<sub>j</sub></em>: weight for window <em>j</em>,
+<em>i</em>: index of the missing value,
+<em>c<sub>j</sub></em>: center position of window <em>j</em>,
+<em>σ</em>: standard deviation (controls decay rate)
+</div>
+
+</div>
+
+<div style="flex: 0.8; border: 2px solid #2D6A4F; padding: 15px; border-radius: 8px; background-color: #F0FFF4; font-size: 0.85em;">
+
+**Intuition**:
 - Missing values at the **center** of a window receive **highest weight**
 - Quality decreases with distance from center
 - Foundation models have best attention at center positions
@@ -122,6 +133,10 @@ Where:
 - Smooth, continuous decay
 - Well-studied statistical properties
 - Natural representation of attention quality
+
+</div>
+
+</div>
 
 Note:
 The Gaussian weighting function reflects the empirical observation that
@@ -135,15 +150,23 @@ in both directions.
 ## Linear Opinion Pool
 ### Ensemble Averaging
 
-**Mathematical Formula**:
+<div style="text-align: center; margin-bottom: 1em;">
+<img src="assets/images/math/linear_opinion_pool.svg" alt="Linear Opinion Pool formula" style="max-width: 50%;">
+</div>
 
-<img src="assets/images/math/linear_opinion_pool.svg" alt="Linear Opinion Pool formula" style="display: block; margin: 1em auto; max-width: 80%;">
+<div style="display: flex; gap: 20px; align-items: flex-start;">
 
-Where:
-- *P(x<sub>i</sub>)*: final probability for missing value *x<sub>i</sub>*
-- *P(x<sub>i</sub> | C<sub>j</sub>)*: probability from window *j* with context *C<sub>j</sub>*
-- *w<sub>j</sub>*: Gaussian weight for window *j*
-- Σ*w<sub>j</sub>* = 1 (normalized weights)
+<div style="flex: 1.2; border: 2px solid #FF8C00; padding: 15px; border-radius: 8px; background-color: #FFF8E7;">
+<img src="assets/images/linear_opinion_pooling_plot.png" alt="Linear Opinion Pool visualization" style="display: block; margin: 0 auto; max-width: 85%;">
+</div>
+
+<div style="flex: 0.8; border: 2px solid #2D6A4F; padding: 15px; border-radius: 8px; background-color: #F0FFF4; font-size: 0.85em;">
+
+**Where**:
+- *P(x<sub>i</sub>)*: final probability
+- *P(x<sub>i</sub> | C<sub>j</sub>)*: probability from window *j*
+- *w<sub>j</sub>*: Gaussian weight
+- Σ*w<sub>j</sub>* = 1 (normalized)
 
 **Characteristics**:
 - **Averaging** of probability distributions
@@ -151,7 +174,11 @@ Where:
 - Each window contributes proportionally to its weight
 - Smooth, consensus-based predictions
 
-**Use Case**: When you want to balance multiple uncertain predictions
+**Use Case**: Balance multiple uncertain predictions
+
+</div>
+
+</div>
 
 Note:
 The Linear Opinion Pool treats each window's prediction as a vote,
@@ -164,13 +191,23 @@ traditional machine learning, where multiple models vote on the outcome.
 ## Log-Opinion Pool
 ### Product of Experts
 
-**Mathematical Formula**:
+<div style="text-align: center; margin-bottom: 1em;">
+<div style="display: inline-block; margin-right: 2em;">
+<img src="assets/images/math/log_opinion_pool.svg" alt="Log Opinion Pool formula" style="max-width: 50%;">
+</div>
+<div style="display: inline-block;">
+<strong>Equivalent to:</strong><br>
+<img src="assets/images/math/log_opinion_pool_product.svg" alt="Log Opinion Pool product form" style="max-width: 50%;">
+</div>
+</div>
 
-<img src="assets/images/math/log_opinion_pool.svg" alt="Log Opinion Pool formula" style="display: block; margin: 1em auto; max-width: 80%;">
+<div style="display: flex; gap: 20px; align-items: flex-start;">
 
-**Equivalent to** (after normalization):
+<div style="flex: 1.2; border: 2px solid #6A4C93; padding: 15px; border-radius: 8px; background-color: #F5F0FF;">
+<img src="assets/images/log_opinion_pooling_plot.png" alt="Log-Opinion Pool visualization" style="display: block; margin: 0 auto; max-width: 85%;">
+</div>
 
-<img src="assets/images/math/log_opinion_pool_product.svg" alt="Log Opinion Pool product form" style="display: block; margin: 1em auto; max-width: 80%;">
+<div style="flex: 0.8; border: 2px solid #2D6A4F; padding: 15px; border-radius: 8px; background-color: #F0FFF4; font-size: 0.85em;">
 
 **Characteristics**:
 - **Product** of probability distributions (in log space)
@@ -183,6 +220,10 @@ traditional machine learning, where multiple models vote on the outcome.
 - If one window is **uncertain** (flat), it doesn't dominate
 - Better captures the consensus of expert predictions
 
+</div>
+
+</div>
+
 Note:
 The Log-Opinion Pool is mathematically preferred because it treats each
 window as an expert that must agree. If any window is highly confident
@@ -194,32 +235,61 @@ about a particular value, that confidence is preserved in the final result.
 ## Why Log Space?
 ### Numerical Stability and Sharpening
 
-### 1. Numerical Stability
-**Problem**: Multiplying many small probabilities
+<div style="display: flex; gap: 12px; align-items: stretch; margin-bottom: 0.8em;">
+
+<div style="flex: 1; border: 2px solid #1E88E5; padding: 10px; border-radius: 8px; background-color: #E3F2FD; font-size: 0.7em;">
+
+**1. Numerical Stability**
+
+**Problem**: Multiplying small probabilities
 ```
-0.1 × 0.1 × 0.1 × ... → underflow (becomes 0)
+0.1 × 0.1 × ... → 0
 ```
 
-**Solution**: Work in log space
+**Solution**: Log space
 ```
-log(0.1) + log(0.1) + log(0.1) + ... → stable
+log(0.1) + ... → stable
 ```
 
-### 2. Sharpening Effect
+Prevents underflow.
 
-**Scenario**: Two windows make predictions
-- Window 1: **Certain** (sharp peak at class A)
-- Window 2: **Uncertain** (flat distribution)
+</div>
 
-**Linear Pool**: Averages → flattens the sharp peak
-**Log Pool**: Product → preserves the sharp peak
+<div style="flex: 1; border: 2px solid #7B1FA2; padding: 10px; border-radius: 8px; background-color: #F3E5F5; font-size: 0.7em;">
 
-### 3. Intersection of Beliefs
+**2. Sharpening Effect**
 
-Log-Opinion Pool finds values that **all windows agree on**:
-- High probability only if **all windows** assign high probability
-- Natural way to combine expert opinions
-- Mathematically sound for probabilistic models
+Two windows:
+- Window 1: **Certain**
+- Window 2: **Uncertain**
+
+**Linear**: Flattens peak
+
+**Log**: Preserves peak
+
+Confidence preserved!
+
+</div>
+
+<div style="flex: 1; border: 2px solid #388E3C; padding: 10px; border-radius: 8px; background-color: #E8F5E9; font-size: 0.7em;">
+
+**3. Intersection of Beliefs**
+
+Finds agreement:
+
+- High prob only if **all** agree
+- Natural expert combination
+- Mathematically sound
+
+Agreement required!
+
+</div>
+
+</div>
+
+<div style="text-align: center;">
+<img src="assets/images/log_space_comparison.png" alt="Log space comparison" style="max-width: 75%;">
+</div>
 
 Note:
 The log space transformation is not just a computational trick—it
