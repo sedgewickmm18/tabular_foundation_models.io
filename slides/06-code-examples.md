@@ -1,5 +1,5 @@
 <!-- Main Slide: Code Examples -->
-## Practical Code Examples
+## Foundational models applied
 ### Using TabPFN in Production
 
 **Topics Covered**:
@@ -12,6 +12,45 @@ Note:
 These code examples demonstrate how to use TabPFN and TabICL effectively
 in real-world applications, including handling large datasets and
 optimizing performance.
+
+--
+
+<!-- Vertical Slide: When tabular foundation models work well -->
+## When tabular foundation models work well
+
+<div style="margin-top: 30px;"></div>
+
+<div class="columns">
+<div class="column">
+
+### Data Structure Requirements
+
+<div style="margin-top: 20px; font-size: 0.9em;">
+
+**✅ Works Well: Time Series Data**
+- Canonical ordering by time
+- Sequential relationships matter
+- Natural row order
+- Example: Bank statements
+
+**❌ Doesn't Work Well: Master Data**
+- No canonical ordering
+- Arbitrary row arrangement
+- Order-independent records
+- Example: Address books, catalogs
+
+</div>
+
+</div>
+<div class="column">
+
+![Data Structure Comparison](assets/images/data_structure_comparison.png)
+
+</div>
+</div>
+
+Note:
+Foundational models like TabPFN work best with data that has a natural, canonical ordering (like time series where rows are ordered by time). They struggle with unordered data like address books or master data tables where row order is arbitrary and doesn't convey meaningful information. The diagram shows a bank statement with sequential trends (works well) versus an address book with no inherent order (doesn't work well).
 
 --
 

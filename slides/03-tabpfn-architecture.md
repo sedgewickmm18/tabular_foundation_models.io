@@ -115,4 +115,49 @@ By running thousands of these unique SCMs, TabPFN creates a "Prior" of millions 
 </div>
 
 Note:
+
+--
+
+<!-- Vertical Slide: Binning for Regression -->
+## Binning - how a classifier can do regression
+
+<div class="columns">
+<div class="column">
+
+![Quantile Binning](assets/images/quantile_binning.png)
+
+</div>
+<div class="column" style="font-size: 0.75em; border: 2px solid #ccc; padding: 15px; text-align: left;">
+
+### How it Enables Regression for a Classifier
+
+**Binning (The Discrete Output)**: The continuous range of the target variable *y* is split into *B* discrete bins (typically 100). The classifier treats these bins as "classes."
+
+**Probability Mass**: For a given input, the transformer outputs a probability distribution over these classes. Each class corresponds to a specific interval [y<sub>i</sub>, y<sub>i+1</sub>].
+
+**Step Function PDF**: As shown in the diagram, these discrete probabilities form a piecewise constant approximation (a step function) of the true probability density function.
+
+**Expected Value**: To get a final scalar prediction for regression, the model calculates the expected value of this distribution:
+
+<img src="assets/images/math/expected_value_binning.svg" alt="Expected value formula" style="display: block; margin: 0.5em auto; max-width: 40%;">
+
+**Uncertainty**: Because the model predicts a full distribution rather than just a point, it naturally provides uncertainty estimates (the "width" or variance of the steps).
+
+</div>
+</div>
+
+<div style="font-size: 0.7em; margin-top: 20px; border: 2px solid #ccc; padding: 15px; text-align: left;">
+
+### Quantile binning: From TabPFN to TabPFN-v2 
+
+**Resolution**: By making bins smaller where data is dense, the model achieves higher precision in the most likely ranges of *y*.
+
+**Outlier Robustness**: Wide bins at the edges (long tails) prevent a few extreme outliers from forcing the model to create hundreds of empty bins, which would happen with fixed-width binning.
+
+**Uniform Loss**: It ensures that during training, the cross-entropy loss is more balanced because every "class" (bin) is represented by a similar number of samples in the prior.
+
+</div>
+
+Note:
+TabPFN-v2 uses quantile binning to convert regression into a classification problem. This approach provides several advantages: it naturally handles uncertainty quantification, is robust to outliers, and ensures balanced training. The key insight is that by predicting a distribution over bins rather than a single value, the model can express uncertainty and achieve better calibration.
 Structural Causal Models (SCMs) provide a principled way to generate diverse synthetic datasets. Each SCM represents a different "world" with its own causal structure and functional relationships, enabling the model to learn general patterns that transfer to real data.

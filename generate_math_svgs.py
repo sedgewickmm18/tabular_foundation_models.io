@@ -37,6 +37,9 @@ formulas = {
     'epsilon': r'$\epsilon$',
     'ten_to_minus_ten': r'$10^{-10}$',
     'log_zero': r'$\log(0)$',
+    
+    # From binning slide
+    'expected_value_binning': r'$\hat{y}=\sum_{i=1}^{B}P(\text{bin}_{i})\cdot \text{center}(\text{bin}_{i})$',
 }
 
 def latex_to_svg_matplotlib(latex_code, output_path, fontsize=20):
