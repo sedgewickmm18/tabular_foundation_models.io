@@ -1,163 +1,77 @@
-<!-- Main Slide: Limitations -->
-## Current Limitations & Future Work
-### Understanding the Constraints
+<!-- Main Slide: Recent Developments -->
+## Recent Developments
+### Tabular Foundation Models Impact the Industry
 
-**Key Limitations**:
-- Dataset size constraints (~1000 samples)
-- Feature type limitations
-- Computational requirements
-- Interpretability challenges
+**Major Industry Milestone**:
+- [SAP acquires Prior Labs](https://news.sap.com/2026/05/sap-to-acquire-prior-labs-establish-frontier-ai-lab-europe/) (May 2026)
+- Establishes Frontier AI Lab in Europe
+- Validates commercial potential of tabular foundation models
 
-**Future Directions**:
-- Scalability improvements
-- Multi-modal learning
-- Enhanced interpretability
-- Domain-specific models
+**Market Recognition**:
+- Enterprise adoption accelerating
+- Foundation models moving from research to production
+- New era for automated machine learning
 
 Note:
-Understanding limitations is crucial for appropriate application of
-foundation models. Active research is addressing many of these constraints.
+The acquisition of Prior Labs by SAP marks a pivotal moment for tabular foundation models,
+demonstrating their readiness for enterprise-scale deployment and commercial viability.
 
 --
 
-<!-- Vertical Slide: Detailed Limitations -->
-## Detailed Limitations
+<!-- Vertical Slide: State of Tabular Foundation Models -->
+## The State of Tabular Foundation Models
+### Landscape Overview
 
-### 1. Dataset Size Constraints
-**Current**: ~1000 training samples (TabPFN), ~10K (TabICL)
-**Impact**: Requires chunking for larger datasets
-**Workaround**: Sliding window approach with reconciliation
-**Future**: Improved architectures for larger contexts
+<div style="margin-top: 30px;"></div>
 
-### 2. Feature Types
-**Current**: Primarily numerical and categorical
-**Limitations**: 
-- Text features require preprocessing
-- Time series need special handling
-- Images not directly supported
-**Workaround**: Feature engineering and embeddings
+<div class="columns">
+<div class="column">
 
-### 3. Computational Requirements
-**Current**: GPU recommended for best performance
-**Impact**: Deployment constraints in resource-limited environments
-**Workaround**: CPU mode available (slower)
-**Future**: Model compression and optimization
+### Key Developments
 
-### 4. Interpretability
-**Current**: Black-box model, limited explainability
-**Impact**: Difficult to understand predictions
-**Workaround**: Post-hoc explanation methods (SHAP, LIME)
-**Future**: Built-in interpretability features
+<div style="margin-top: 20px; font-size: 0.75em; border: 2px solid #ccc; padding: 15px; text-align: left;">
 
-Note:
-Each limitation has practical workarounds, but they add complexity
-to the deployment pipeline. Future research aims to address these
-constraints directly in the model architecture.
+**Model Evolution**:
+- **TabPFN** (2022): First tabular foundation model, ~1K samples
+- **TabICL** (2024): Improved scalability, ~10K samples
+- **Emerging Models**: Active research on larger contexts
 
---
+**Research Trends**:
+- Scaling to larger datasets
+- Multi-modal integration
+- Improved interpretability
+- Domain-specific adaptations
 
-<!-- Vertical Slide: Research Directions -->
-## Active Research Directions
+**Adoption Patterns**:
+- Growing use in competitions
+- Enterprise deployments
+- AutoML integration
+- Open-source ecosystem
 
-### Scalability
-- **Efficient attention mechanisms**: Reduce memory footprint
-- **Hierarchical processing**: Handle larger datasets
-- **Distributed inference**: Parallel processing
+**Model Categories**:
+- In-Context Learning
+- Fine-tuning Approaches
+- Hybrid Methods
 
-### Multi-modal Learning
-- **Text integration**: Natural language features
-- **Time series**: Temporal patterns
-- **Images**: Visual features
-- **Graphs**: Relational data
+**Reference**: [Christoph Molnar: The state of tabular foundation models](https://mindfulmodeler.substack.com/p/the-state-of-tabular-foundation-models)
 
-### Interpretability
-- **Attention visualization**: Understand feature importance
-- **Counterfactual explanations**: What-if analysis
-- **Rule extraction**: Interpretable patterns
-- **Uncertainty quantification**: Confidence estimates
+</div>
 
-### Domain Adaptation
-- **Few-shot fine-tuning**: Quick adaptation
-- **Transfer learning**: Cross-domain knowledge
-- **Meta-learning improvements**: Better generalization
-- **Domain-specific priors**: Specialized models
+</div>
+<div class="column">
+
+<div style="margin-top: 100px;">
+
+![Tabular Foundation Models Landscape](https://substackcdn.com/image/fetch/w_1456,c_limit,f_auto,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2Fddcb6f80-9bd2-4ec7-b4a8-f40bceec1d90_1329x840.png)
+
+</div>
+
+</div>
+</div>
 
 Note:
-The research community is actively working on these directions,
-with new papers and improvements appearing regularly.
+The field is rapidly evolving with multiple approaches emerging. The diagram
+shows the diverse landscape of tabular foundation models, from pure in-context
+learning to fine-tuning strategies, each with different trade-offs.
 
---
-
-<!-- Vertical Slide: Community & Roadmap -->
-## Community Contributions & Roadmap
-
-### Open Source Ecosystem
-- **GitHub**: Active development and issues
-- **Papers**: Regular publications and preprints
-- **Benchmarks**: Community-driven evaluations
-- **Extensions**: Third-party tools and integrations
-
-### Short-term Roadmap (6-12 months)
-- ✅ Improved scalability (TabICL)
-- 🔄 Better handling of categorical features
-- 🔄 Enhanced uncertainty quantification
-- 📋 Multi-task learning support
-
-### Medium-term Roadmap (1-2 years)
-- 📋 Multi-modal support (text, time series)
-- 📋 Built-in interpretability features
-- 📋 Federated learning capabilities
-- 📋 AutoML integration
-
-### Long-term Vision (2+ years)
-- 📋 Universal tabular foundation model
-- 📋 Real-time learning and adaptation
-- 📋 Cross-domain transfer learning
-- 📋 Automated feature engineering
-
-Note:
-The roadmap is ambitious but achievable given the rapid progress
-in foundation models. Community contributions are welcome and
-encouraged to accelerate development.
-
---
-
-<!-- Vertical Slide: Best Practices Summary -->
-## Best Practices & Recommendations
-
-### When to Use Foundation Models
-✅ **Ideal Scenarios**:
-- Small to medium datasets (< 10K samples)
-- Need for fast deployment
-- Limited ML expertise
-- Minimal tuning time available
-- Mixed feature types
-- Missing values present
-
-❌ **Consider Alternatives**:
-- Very large datasets (> 100K samples)
-- Abundant computational resources
-- Need for maximum accuracy (ensemble traditional methods)
-- Strict interpretability requirements
-- Real-time streaming data
-
-### Deployment Checklist
-1. ✅ Validate dataset size constraints
-2. ✅ Check feature types compatibility
-3. ✅ Test inference speed requirements
-4. ✅ Evaluate baseline performance
-5. ✅ Consider chunking strategy if needed
-6. ✅ Plan for model updates and monitoring
-7. ✅ Document limitations and assumptions
-
-### Getting Started
-1. Start with zero-shot predictions
-2. Evaluate performance on validation set
-3. Consider fine-tuning if needed
-4. Implement chunking for large datasets
-5. Monitor performance in production
-6. Iterate based on feedback
-
-Note:
-Following these best practices will help ensure successful deployment
-of foundation models in production environments.
+Source: https://mindfulmodeler.substack.com/p/the-state-of-tabular-foundation-models
