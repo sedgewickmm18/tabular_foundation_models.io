@@ -105,15 +105,17 @@ Structural Causal Models (SCMs) provide a principled way to generate diverse syn
 
 <div style="border: 2px solid #ccc; padding: 15px; margin-bottom: 20px; text-align: left;">
 
-In the context of tabular foundation models like TabPFN, the posterior predictive distribution (PPD) is the probability distribution of a new target y<sub>new</sub> given a new feature vector x<sub>new</sub> and a training dataset *D*
+In the context of tabular foundation models like TabPFN, the posterior predictive distribution (PPD) is the probability distribution of a new target y<sub>new</sub> given a new feature vector x<sub>new</sub> and a training dataset *D*:=(X<sub>train</sub>,y<sub>train</sub>)
 
 Mathematically, the PPD is defined as:
 
 <img src="assets/images/math/posterior_predictive_distribution.svg" alt="Posterior Predictive Distribution" style="display: block; margin: 1em auto; max-width: 40%;">
 
-The tasks &Phi; are generated from the SCM DAGs from the previous slide: The process to 'sample' a DAG, to assign operators to the nodes, to add noise and then to generate training data constitutes such a task - the more the better we approximate the integral above.
+The tasks &Phi; are generated from the SCM DAGs (see previous slide): The process to 'sample' a DAG, to assign operators to the nodes, to add noise and then to generate training data constitutes such a task - the more the better we approximate the integral above.
 
-Since different tasks might produces similar training data - near linear relationship tend to happen  more frequently, the likelihood of those task w.r.t. the full training data, P(D|&Phi;) is higher.
+Since different tasks might produces similar training data - for example, near linear relationship tend to happen more frequently, the likelihood of those task w.r.t. the full training data, P(D|&Phi;) is higher.
+
+The story becomes a bit more mixed for models like TabPFN-2.5 that add real-life data to the training set.
 
 </div>
 
