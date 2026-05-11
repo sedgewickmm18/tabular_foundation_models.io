@@ -48,6 +48,14 @@ optimizing performance.
 
 </div>
 </div>
+<div style="text-align: center; margin: 40px auto 20px auto; max-width: 85%; font-size: 0.85em; padding: 20px; background-color: #f8f9fa; border-radius: 8px; border-left: 4px solid #6c757d;">
+
+**Important Note on Ordering:**
+
+Tabular foundation models do not rely on strict ordering and even need RoPE (rotary position encode) like features to express order by time, but they rely on relations between rows and features. In fact, apart from Mamba/Hydra based foundation models (a la Granite) the actual order does not matter
+
+</div>
+
 
 Note:
 Foundational models like TabPFN work best with data that has a natural, canonical ordering (like time series where rows are ordered by time). They struggle with unordered data like address books or master data tables where row order is arbitrary and doesn't convey meaningful information. The diagram shows a bank statement with sequential trends (works well) versus an address book with no inherent order (doesn't work well).

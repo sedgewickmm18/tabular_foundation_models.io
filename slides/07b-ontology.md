@@ -169,6 +169,10 @@ important semantic distinctions.
 
 ### Complete Ontology-Aware Preprocessing
 
+<div style="position: relative;">
+
+<div style="font-size: 0.65em; max-width: 70%; margin: 0 auto;">
+
 ```python
 import pandas as pd
 from tabpfn import TabPFNClassifier
@@ -179,33 +183,21 @@ class ClinicalTrialPreprocessor:
     
     def preprocess(self, df):
         """Apply ontology-aware preprocessing"""
-        
-        # 1. Feature Selection: Use ontology to identify core features
+        # 1. Feature Selection
         core_features = self.ontology.get_entity_defining_features(
-            entity_type='patient',
-            importance_threshold=0.7
+            entity_type='patient', importance_threshold=0.7
         )
         df_selected = df[core_features]
         
-        # 2. Semantic Encoding: Preserve relationships
+        # 2. Semantic Encoding
         df_selected['treatment_intensity'] = df_selected['treatment'].map({
-            'placebo': 0.0,
-            'low_dose': 0.5,
-            'high_dose': 1.0
+            'placebo': 0.0, 'low_dose': 0.5, 'high_dose': 1.0
         })
         
-        # 3. Handle High Cardinality: Group rare diagnoses
+        # 3. Handle High Cardinality
         df_selected['diagnosis_group'] = df_selected['diagnosis_code'].apply(
             lambda x: self.ontology.get_parent_category(x)
-            if self.ontology.get_frequency(x) < 0.01
-            else x
-        )
-        
-        # 4. Derived Features: Use domain knowledge
-        df_selected['risk_score'] = self.ontology.calculate_risk_score(
-            age=df_selected['age'],
-            comorbidities=df_selected['comorbidity_count'],
-            biomarkers=df_selected[['biomarker_1', 'biomarker_2']]
+            if self.ontology.get_frequency(x) < 0.01 else x
         )
         
         return df_selected
@@ -213,17 +205,36 @@ class ClinicalTrialPreprocessor:
 # Usage
 preprocessor = ClinicalTrialPreprocessor(medical_ontology)
 X_processed = preprocessor.preprocess(X_raw)
-
-# Now use with TabPFN
 model = TabPFNClassifier(device='cuda')
 model.fit(X_processed, y)
-predictions = model.predict(X_test_processed)
 ```
+
+</div>
+
+<div style="position: absolute; top: 10%; right: 5%; width: 25%; text-align: left; font-size: 0.75em; color: #2D6A4F; background-color: #F0FFF4; padding: 15px; border-radius: 8px; border: 2px solid #2D6A4F; box-shadow: 0 4px 6px rgba(0,0,0,0.1);">
+<div style="font-weight: bold; margin-bottom: 8px;">💡 LLM Opportunity</div>
+<div style="border-left: 3px solid #2D6A4F; padding-left: 10px;">
+Here LLM-based automated code generation comes into play...
+</div>
+<div style="margin-top: 10px; font-size: 0.9em; color: #555;">
+<svg width="40" height="40" style="position: absolute; left: -45px; top: 50%; transform: translateY(-50%);">
+  <defs>
+    <marker id="arrowhead" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto">
+      <polygon points="0 0, 10 3, 0 6" fill="#2D6A4F" />
+    </marker>
+  </defs>
+  <path d="M 40 20 Q 20 20, 5 20" stroke="#2D6A4F" stroke-width="2" fill="none" marker-end="url(#arrowhead)" />
+</svg>
+</div>
+</div>
+
+</div>
 
 Note:
 This example shows how to combine all three strategies—feature selection,
 semantic encoding, and cardinality reduction—into a cohesive preprocessing
-pipeline guided by your domain ontology.
+pipeline guided by your domain ontology. The annotation highlights where
+LLM-based code generation can assist in creating ontology-aware preprocessing.
 
 --
 
