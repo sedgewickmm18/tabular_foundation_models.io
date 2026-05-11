@@ -15,6 +15,7 @@ TabPFN represents a breakthrough in tabular machine learning by applying
 the transformer architecture with a novel training approach based on
 Bayesian priors over datasets.
 
+
 --
 
 <!-- Vertical Slide: Architecture Details -->
@@ -66,26 +67,6 @@ data where both feature interactions and example-based learning are crucial.
 
 --
 
-<!-- Vertical Slide: Mathematical Foundation -->
-## Mathematical Formulation
-
-### Bayesian Perspective
-<img src="assets/images/math/bayesian_perspective.svg" alt="Bayesian perspective formula" style="display: block; margin: 1em auto; max-width: 80%;">
-
-### Prior-Fitted Approach
-<img src="assets/images/math/prior_fitted.svg" alt="Prior-fitted approach formula" style="display: block; margin: 1em auto; max-width: 80%;">
-
-where $\phi$ is learned through meta-training
-
-### In-Context Learning
-Model learns to predict by observing training examples in context
-
-Note:
-The mathematical foundation is based on Bayesian inference, where the model
-learns a distribution over model parameters given training data.
-
---
-
 <!-- Vertical Slide: Training Process -->
 ## Training on Synthetic Data - Structural Causal Modeling
 
@@ -115,6 +96,35 @@ By running thousands of these unique SCMs, TabPFN creates a "Prior" of millions 
 </div>
 
 Note:
+Structural Causal Models (SCMs) provide a principled way to generate diverse synthetic datasets. Each SCM represents a different "world" with its own causal structure and functional relationships, enabling the model to learn general patterns that transfer to real data.
+
+--
+
+<!-- Vertical Slide: Mathematical Background -->
+## Mathematical stuff
+
+<div style="border: 2px solid #ccc; padding: 15px; margin-bottom: 20px; text-align: left;">
+
+In the context of tabular foundation models like TabPFN, the posterior predictive distribution (PPD) is the probability distribution of a new target y<sub>new</sub> given a new feature vector x<sub>new</sub> and a training dataset *D*
+
+Mathematically, the PPD is defined as:
+
+<img src="assets/images/math/posterior_predictive_distribution.svg" alt="Posterior Predictive Distribution" style="display: block; margin: 1em auto; max-width: 40%;">
+
+The tasks &Phi; are generated from the SCM DAGs from the previous slide: The process to 'sample' a DAG, to assign operators to the nodes, to add noise and then to generate training data constitutes such a task - the more the better we approximate the integral above.
+
+Since different tasks might produces similar training data - near linear relationship tend to happen  more frequently, the likelihood of those task w.r.t. the full training data, P(D|&Phi;) is higher.
+
+</div>
+
+<div style="border: 2px solid #ccc; padding: 15px; margin-bottom: 20px; text-align: left;">
+
+
+**Marginalization Over Tasks leads to invariance to column order** 
+
+The PPD works by "averaging" over many potential underlying functions (latent tasks φ) that _could_ have generated the data. Since the "correct" way to map features to labels is based on their values and relationships, not their position in a list, the integral naturally ignores arbitrary column ordering.
+</div>
+
 
 --
 

@@ -40,6 +40,9 @@ formulas = {
     
     # From binning slide
     'expected_value_binning': r'$\hat{y}=\sum_{i=1}^{B}P(\text{bin}_{i})\cdot \text{center}(\text{bin}_{i})$',
+    
+    # From mathematical background slide
+    'posterior_predictive_distribution': r'$P(y_{\text{new}}|x_{\text{new}},D)=\int P(y_{\text{new}}|x_{\text{new}},\phi )\,P(\phi |D)\,d\phi$',
 }
 
 def latex_to_svg_matplotlib(latex_code, output_path, fontsize=20):
