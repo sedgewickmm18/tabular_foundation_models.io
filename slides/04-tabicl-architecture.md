@@ -21,11 +21,13 @@ extending its capabilities to handle larger and more complex datasets.
   <img src="assets/images/architecture_comparison.png" alt="TabPFN vs TabICL Architecture" style="max-width: 65%; max-height: 45vh;">
 </div>
 
-<div style="font-size: 0.85em;">
+<div style="font-size: 0.65em;">
 
 - **Stage 1 (Row Embedder)**: Acts as a specialized pre-processor that looks only at features of a single row and "summarizes" them into a single mathematical vector (a "token")
 - **Stage 2 (Sequential ICL)**: Treats the dataset exactly like an LLM treats a sentence - instead of a sequence of words, it sees a sequence of row tokens
 - **Impact**: The main Transformer in Stage 2 never sees the original features, only the summaries. This allows it to handle much larger datasets (more rows) because it is no longer distracted by high feature counts
+
+For deeper coverage of TabICL improvements, such as numerical complexity of row-wise encodings and column based embeddings that capture statistical properties, see [Gael Varoquaux' blog entry](https://gael-varoquaux.info/science/tabicl-pretraining-the-best-tabular-learner.html)
 
 </div>
 

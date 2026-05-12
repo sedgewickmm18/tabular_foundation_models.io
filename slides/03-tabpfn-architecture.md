@@ -25,6 +25,7 @@ Bayesian priors over datasets.
 
 <p style="font-size: 0.7em; margin-top: 10px;">
 Similar to <a href="https://poloclub.github.io/transformer-explainer/" target="_blank">GPT-2's multi-layered transformer architecture</a>, TabPFN uses stacked transformer blocks for processing tabular data.
+It encodes tabular data into a continuous representation as shown above, applies multi-head self-attention to capture relationships between features, and outputs predictions through a final layer. The cells to be predicted are replaced with a dummy [BLANK] vector - same interpretation as for LLMs.
 </p>
 
 Note:
@@ -85,7 +86,7 @@ A random Directed Acyclic Graph is generated. Some features are "parents" and so
 For every node, a random mathematical function (MLPs, polynomials, or trig functions) is sampled to define how the children relate to the parents.
 
 **Step 4: Creating the Dataset**
-By running thousands of these unique SCMs, TabPFN creates a "Prior" of millions of synthetic tables. The model learns to predict $Y$ given $X$ across all these possible worlds.
+By running thousands of these unique SCMs, TabPFN creates a "Prior" of millions of synthetic tables. The model learns to predict Y given X across all these possible worlds.
 
 </div>
 <div class="column">
