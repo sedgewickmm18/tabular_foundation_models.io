@@ -24,287 +24,128 @@ performance through intelligent preprocessing and feature engineering.
 <!-- Vertical Slide: Feature Engineering Based on Ontology -->
 ## Feature Engineering and Selection Based on Ontology
 
-### Prioritize Informative Features
+<div style="display: flex; gap: 20px; align-items: flex-start;">
+
+<!-- Left text box -->
+<div style="flex: 0 0 30%; font-size: 0.7em; text-align: left; border: 2px solid #2D6A4F; padding: 15px; border-radius: 8px; background-color: #F0FFF4;">
 
 **TabPFN works best with smaller, highly informative feature sets**:
-- ✅ Select features that **define the entity** (e.g., patient demographics in clinical trials)
+- ✅ Select features that **define the entity**
 - ✅ Use domain knowledge to identify **core attributes**
 - ✅ Remove redundant or low-signal features
 - ❌ Avoid vast, high-dimensional raw data dumps
-
-**Example: Clinical Trial Data**
-```python
-# Instead of 500+ raw features
-raw_features = ['age', 'gender', 'weight', 'height', 'bmi', 
-                'blood_pressure_systolic', 'blood_pressure_diastolic',
-                'lab_test_1', 'lab_test_2', ..., 'lab_test_200']
-
-# Select core entity-defining features (20-50 features)
-core_features = [
-    'age', 'gender', 'bmi',  # Demographics
-    'primary_diagnosis', 'comorbidity_count',  # Clinical status
-    'baseline_biomarker_1', 'baseline_biomarker_2',  # Key biomarkers
-    'treatment_arm', 'prior_treatment_history'  # Treatment context
-]
-```
 
 **Why This Works**:
 - Foundation models excel at finding patterns in **meaningful** features
 - Smaller feature sets → better attention → higher quality predictions
 - Domain knowledge guides feature selection better than automated methods
 
+</div>
+
+<!-- Middle diagram (moved down) -->
+<div style="flex: 0 0 35%; text-align: center; margin-top: 40px;">
+
+<img src="assets/images/ontology_feature_workflow.png" alt="Ontology-Based Feature Engineering Workflow" style="width: 100%; border: 1px solid #ccc; border-radius: 8px;">
+
+</div>
+
+<!-- Right diagram (moved down slightly) -->
+<div style="flex: 0 0 35%; text-align: center; margin-top: 20px;">
+
+<img src="assets/images/famd_plot.png" alt="Factor Analysis of Mixed Data" style="width: 100%; border: 1px solid #ccc; border-radius: 8px;">
+
+</div>
+
+</div>
+
+<div style="margin-top: 30px; font-size: 0.65em; color: #555;">
+
+**Key Principle**: Use your ontology to guide preprocessing, and let TabPFN discover patterns within that structured representation.
+
+</div>
+
 Note:
 The key insight is that TabPFN's in-context learning works best when each
 feature carries significant information. Use your ontology to identify which
-features truly define your entities and their relationships.
+features truly define your entities and their relationships. The workflow diagram
+shows how ontology-based filtering and semantic merging prepare data for FAMD
+analysis, which then reveals the underlying structure in your feature space.
 
 --
 
-<!-- Vertical Slide: Semantic Data Representation -->
-## Semantic Data Representation
+<!-- Vertical Slide: Ontology-Aware Preprocessing Strategies -->
+## Ontology-Aware Preprocessing Strategies
 
-### Beyond Simple Encoding
+<div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px; font-size: 0.75em;">
 
-**Problem with Raw Encoding**:
+<div>
+
+### Semantic Data Representation
+
+**Problem**: Arbitrary encodings lose meaning
 ```python
-# Poor: Arbitrary numeric encoding loses semantic meaning
-treatment_type = {
-    'placebo': 1,
-    'low_dose': 2,
-    'high_dose': 3
-}
+# Poor
+treatment = {'placebo': 1, 'low': 2, 'high': 3}
+
+# Better: Preserve relationships
+treatment = {'placebo': 0.0, 'low': 0.5, 'high': 1.0}
 ```
 
-**Better: Semantic Representation**:
-```python
-# Option 1: Ordinal encoding that preserves relationships
-treatment_intensity = {
-    'placebo': 0.0,      # No treatment
-    'low_dose': 0.5,     # Moderate treatment
-    'high_dose': 1.0     # Maximum treatment
-}
-
-# Option 2: Multiple binary features capturing semantics
-features = {
-    'is_treated': [0, 1, 1],           # Treatment vs placebo
-    'dose_level': [0, 0.5, 1.0],       # Intensity if treated
-    'treatment_duration_weeks': [0, 12, 12]  # Duration
-}
-
-# Option 3: Embeddings from domain knowledge
-# Use pre-trained medical concept embeddings
-treatment_embedding = medical_ontology.get_embedding('high_dose_chemotherapy')
-```
-
-**Why Semantic Representation Matters**:
+**Why it matters**:
 - TabPFN infers relationships from input data
 - Meaningful encodings → better pattern recognition
-- Preserves domain structure in the feature space
+- Preserves domain structure
 
-Note:
-The way you encode categorical variables can dramatically affect TabPFN's
-ability to learn relationships. Use your ontology to create encodings that
-preserve semantic meaning and natural orderings.
+</div>
 
---
+<div>
 
-<!-- Vertical Slide: Handling High Cardinality Features -->
-## Handle High Cardinality Features
+### Handle High Cardinality
 
-### Strategies for Many-Category Variables
+**Challenge**: TabPFN has limitations with high-dimensional data
 
-**Challenge**: TabPFN 2.5 has limitations with extremely high-dimensional data
+**Strategies**:
+1. **Ontology-Based Grouping**: Roll up rare categories to parent
+2. **Frequency Consolidation**: Merge rare categories into "Other"
+3. **Hierarchical Encoding**: Multiple features at different levels
 
-**Strategy 1: Ontology-Based Grouping**
 ```python
-# Example: Medical diagnosis codes (ICD-10)
-# Original: 70,000+ unique codes
-# Grouped by ontology hierarchy
-
-def group_diagnosis_codes(icd10_code, ontology):
-    """Group rare diagnoses into broader categories"""
-    if ontology.get_frequency(icd10_code) < 0.01:  # Rare diagnosis
-        # Roll up to parent category
-        return ontology.get_parent_category(icd10_code)
-    return icd10_code
-
-# Result: 500 meaningful categories instead of 70,000
+# Example: ICD-10 codes (70K → 500 categories)
+def group_codes(code, ontology):
+    if ontology.get_frequency(code) < 0.01:
+        return ontology.get_parent_category(code)
+    return code
 ```
 
-**Strategy 2: Frequency-Based Consolidation**
-```python
-def consolidate_rare_categories(df, column, threshold=0.01):
-    """Consolidate rare categories into 'Other'"""
-    value_counts = df[column].value_counts(normalize=True)
-    rare_categories = value_counts[value_counts < threshold].index
-    
-    df[column] = df[column].apply(
-        lambda x: 'Other' if x in rare_categories else x
-    )
-    return df
-```
+</div>
 
-**Strategy 3: Hierarchical Encoding**
-```python
-# Use ontology hierarchy to create multiple features
-# Example: Geographic location
-location_features = {
-    'country': 'USA',           # Top level
-    'region': 'Northeast',      # Mid level
-    'state': 'Massachusetts',   # Specific level
-    'is_urban': True           # Derived attribute
-}
-# Instead of one feature with 50,000 cities
-```
+</div>
 
-Note:
-High cardinality features can overwhelm TabPFN's context window. Use your
-ontology to intelligently reduce dimensionality while preserving the most
-important semantic distinctions.
+<div style="margin-top: 20px; font-size: 0.7em;">
 
---
-
-<!-- Vertical Slide: Practical Example -->
-## Practical Example: Clinical Trial Data
-
-### Complete Ontology-Aware Preprocessing
-
-<div style="position: relative;">
-
-<div style="font-size: 0.65em; max-width: 70%; margin: 0 auto;">
+### Complete Example: Clinical Trial Preprocessing
 
 ```python
-import pandas as pd
-from tabpfn import TabPFNClassifier
-
 class ClinicalTrialPreprocessor:
-    def __init__(self, ontology):
-        self.ontology = ontology
-    
     def preprocess(self, df):
-        """Apply ontology-aware preprocessing"""
-        # 1. Feature Selection
-        core_features = self.ontology.get_entity_defining_features(
-            entity_type='patient', importance_threshold=0.7
-        )
+        # 1. Feature Selection: Use ontology to select core features
+        core_features = self.ontology.get_entity_defining_features(entity_type='patient')
         df_selected = df[core_features]
         
-        # 2. Semantic Encoding
-        df_selected['treatment_intensity'] = df_selected['treatment'].map({
-            'placebo': 0.0, 'low_dose': 0.5, 'high_dose': 1.0
-        })
+        # 2. Semantic Encoding: Preserve treatment relationships
+        df_selected['treatment_intensity'] = df_selected['treatment'].map(
+            {'placebo': 0.0, 'low_dose': 0.5, 'high_dose': 1.0}
+        )
         
-        # 3. Handle High Cardinality
+        # 3. Handle High Cardinality: Group rare diagnoses
         df_selected['diagnosis_group'] = df_selected['diagnosis_code'].apply(
             lambda x: self.ontology.get_parent_category(x)
             if self.ontology.get_frequency(x) < 0.01 else x
         )
-        
         return df_selected
-
-# Usage
-preprocessor = ClinicalTrialPreprocessor(medical_ontology)
-X_processed = preprocessor.preprocess(X_raw)
-model = TabPFNClassifier(device='cuda')
-model.fit(X_processed, y)
 ```
 
 </div>
 
-<div style="position: absolute; top: 10%; right: 5%; width: 25%; text-align: left; font-size: 0.75em; color: #2D6A4F; background-color: #F0FFF4; padding: 15px; border-radius: 8px; border: 2px solid #2D6A4F; box-shadow: 0 4px 6px rgba(0,0,0,0.1);">
-<div style="font-weight: bold; margin-bottom: 8px;">💡 LLM Opportunity</div>
-<div style="border-left: 3px solid #2D6A4F; padding-left: 10px;">
-Here LLM-based automated code generation comes into play...
-</div>
-<div style="margin-top: 10px; font-size: 0.9em; color: #555;">
-<svg width="40" height="40" style="position: absolute; left: -45px; top: 50%; transform: translateY(-50%);">
-  <defs>
-    <marker id="arrowhead" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto">
-      <polygon points="0 0, 10 3, 0 6" fill="#2D6A4F" />
-    </marker>
-  </defs>
-  <path d="M 40 20 Q 20 20, 5 20" stroke="#2D6A4F" stroke-width="2" fill="none" marker-end="url(#arrowhead)" />
-</svg>
-</div>
-</div>
-
-</div>
-
 Note:
-This example shows how to combine all three strategies—feature selection,
-semantic encoding, and cardinality reduction—into a cohesive preprocessing
-pipeline guided by your domain ontology. The annotation highlights where
-LLM-based code generation can assist in creating ontology-aware preprocessing.
-
---
-
-<!-- Vertical Slide: Best Practices Summary -->
-## Best Practices: Ontology-Driven Approach
-
-### Guidelines for Success
-
-**✅ DO**:
-- **Use domain expertise** to select 20-50 most informative features
-- **Preserve semantic relationships** in encodings (ordinal, hierarchical)
-- **Group rare categories** using ontology hierarchy
-- **Create derived features** that capture domain knowledge
-- **Document your ontology** and preprocessing decisions
-- **Validate** that semantic encodings improve performance
-
-**❌ DON'T**:
-- Include hundreds of raw features without selection
-- Use arbitrary numeric encodings (1, 2, 3) for unordered categories
-- Keep extremely rare categories that add noise
-- Ignore domain structure when preprocessing
-- Apply generic preprocessing without considering semantics
-
-### Key Principle
-
-> **"Let your ontology guide your preprocessing, and let TabPFN discover the patterns within that structured representation."**
-
-Note:
-The most successful applications of TabPFN combine the model's powerful
-in-context learning with thoughtful, ontology-driven preprocessing. Your
-domain knowledge is a crucial input to the system, not something to be
-ignored in favor of raw data.
-
---
-
-<!-- Vertical Slide: When to Apply Ontology-Aware Preprocessing -->
-## When to Apply This Approach
-
-### Decision Framework
-
-**High Value Scenarios** 🎯:
-- ✅ Well-established domain with clear ontology (medical, legal, financial)
-- ✅ Features have known semantic relationships
-- ✅ High cardinality categorical variables present
-- ✅ Expert knowledge available for feature engineering
-- ✅ Entity definitions are clear and stable
-
-**Lower Value Scenarios** ⚠️:
-- ❌ Exploratory analysis with unknown domain structure
-- ❌ Features are already well-preprocessed
-- ❌ Low cardinality, simple feature sets
-- ❌ No domain expertise available
-- ❌ Rapidly changing feature definitions
-
-### Trade-offs
-
-**Benefits**:
-- Better model performance
-- More interpretable features
-- Reduced dimensionality
-- Faster inference
-
-**Costs**:
-- Requires domain expertise
-- Additional preprocessing complexity
-- Maintenance of ontology mappings
-- Risk of encoding biases
-
-Note:
-Ontology-aware preprocessing is most valuable when you have a mature
-understanding of your domain and can invest in thoughtful feature engineering.
-For exploratory work or simple datasets, the additional complexity may not
-be justified.
+These three strategies—semantic encoding, cardinality reduction, and feature selection—work together to create a preprocessing pipeline that preserves domain knowledge while making data suitable for TabPFN's in-context learning.

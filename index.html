@@ -316,6 +316,79 @@
                 });
             }
         });
+        
+        // Image Modal Functionality
+        Reveal.on('ready', event => {
+            // Create modal element
+            const modal = document.createElement('div');
+            modal.className = 'image-modal';
+            modal.innerHTML = `
+                <span class="image-modal-close">&times;</span>
+                <img class="image-modal-content" alt="">
+                <div class="image-modal-caption"></div>
+            `;
+            document.body.appendChild(modal);
+            
+            const modalImg = modal.querySelector('.image-modal-content');
+            const captionText = modal.querySelector('.image-modal-caption');
+            const closeBtn = modal.querySelector('.image-modal-close');
+            
+            // Function to open modal
+            function openModal(img) {
+                modal.classList.add('active');
+                modalImg.src = img.src;
+                modalImg.alt = img.alt;
+                captionText.textContent = img.alt || '';
+                // Prevent reveal.js navigation while modal is open
+                Reveal.configure({ keyboard: false });
+            }
+            
+            // Function to close modal
+            function closeModal() {
+                modal.classList.remove('active');
+                // Re-enable reveal.js navigation
+                Reveal.configure({ keyboard: true });
+            }
+            
+            // Add click handlers to all images in slides
+            function addImageClickHandlers() {
+                const images = document.querySelectorAll('.reveal .slides img');
+                images.forEach(img => {
+                    // Remove any existing click handlers
+                    img.removeEventListener('click', img._modalClickHandler);
+                    
+                    // Create and store the handler
+                    img._modalClickHandler = function(e) {
+                        e.preventDefault();
+                        e.stopPropagation();
+                        openModal(img);
+                    };
+                    
+                    img.addEventListener('click', img._modalClickHandler);
+                });
+            }
+            
+            // Initial setup
+            addImageClickHandlers();
+            
+            // Re-add handlers when slides change (for dynamically loaded content)
+            Reveal.on('slidechanged', addImageClickHandlers);
+            
+            // Close modal on click
+            closeBtn.addEventListener('click', closeModal);
+            modal.addEventListener('click', function(e) {
+                if (e.target === modal || e.target === modalImg) {
+                    closeModal();
+                }
+            });
+            
+            // Close modal on Escape key
+            document.addEventListener('keydown', function(e) {
+                if (e.key === 'Escape' && modal.classList.contains('active')) {
+                    closeModal();
+                }
+            });
+        });
     </script>
 </body>
 </html>

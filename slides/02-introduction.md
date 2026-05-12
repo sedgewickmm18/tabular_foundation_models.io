@@ -21,54 +21,40 @@ pre-trained model that can adapt to new tasks through in-context learning.
 
 --
 
-<!-- Vertical Slide: Evolution -->
-## Evolution of Tabular ML
+<!-- Vertical Slide: Evolution & Key Papers -->
+## Evolution & Key Research
 
-### Traditional Approaches (2000s-2010s)
-- Decision Trees, Random Forests
-- Gradient Boosting (XGBoost, LightGBM)
-- Neural Networks (limited success)
+<div style="display: flex; gap: 2rem; align-items: flex-start;">
 
-### AutoML Era (2015-2020)
-- Automated feature engineering
-- Hyperparameter optimization
-- Ensemble methods
+<div style="flex: 1; border: 2px solid #666; padding: 1.5rem; border-radius: 8px; text-align: left;">
 
-### Foundation Model Era (2020+)
-- **TabPFN** (2022): Prior-fitted networks
-- **TabICL** (2024+): Enhanced in-context learning
-- Meta-learning on synthetic data
+### Evolution of Tabular ML
 
-Note:
-The evolution shows a clear trend toward automation and generalization.
-Foundation models represent the culmination of this trend, offering
-unprecedented flexibility and ease of use.
+**2000s-2010s**: Decision Trees, Gradient Boosting (XGBoost, LightGBM)
 
---
+**2015-2020**: AutoML with automated feature engineering & hyperparameter tuning
 
-<!-- Vertical Slide: Key Papers -->
-## Key Research Papers
+**2020+**: Foundation Models - **TabPFN** (2022), **TabICL** (2024+)
 
-### TabPFN (2022)
-**"TabPFN: A Transformer That Solves Small Tabular Classification Problems in a Second"**
-- Authors: Hollmann et al.
-- arXiv: 2207.01848
-- Key innovation: Prior-fitted networks for tabular data
+</div>
 
-### TabICL (2024)
-**"Tabular In-Context Learning"**
-- Enhanced scalability
-- Improved performance
-- Better handling of large datasets
+<div style="flex: 1; border: 2px solid #666; padding: 1.5rem; border-radius: 8px; text-align: left;">
 
-### Related Work
-- "Attention Is All You Need" (Transformers)
-- "Language Models are Few-Shot Learners" (GPT-3)
-- "On the Opportunities and Risks of Foundation Models"
+### Key Research Papers
+
+**TabPFN (2022)** - Hollmann et al. (arXiv: 2207.01848)
+Prior-fitted networks for small tabular classification
+
+**TabICL (2024)** - Enhanced scalability & large dataset handling
+
+**Foundation**: Transformers (Vaswani et al.), GPT-3 few-shot learning
+
+</div>
+
+</div>
 
 Note:
-These papers build on the success of transformers in NLP and computer vision,
-adapting the architecture and training methodology for tabular data.
+Clear trend toward automation and generalization. Foundation models adapt transformer success from NLP/vision to tabular data through meta-learning on synthetic data.
 
 --
 
