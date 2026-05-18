@@ -3,9 +3,9 @@ import matplotlib.patches as patches
 from matplotlib.patches import FancyBboxPatch
 
 def generate_transformer_diagram():
-    # Set up the figure and axis with more width for the input table
-    fig, ax = plt.subplots(figsize=(16, 9))
-    ax.set_xlim(-3, 15)
+    # Set up the figure and axis - reduced width to fit alongside model code box
+    fig, ax = plt.subplots(figsize=(11, 9))
+    ax.set_xlim(-3, 10.5)
     ax.set_ylim(-0.5, 8.5)
     ax.axis('off')
 
@@ -76,27 +76,27 @@ def generate_transformer_diagram():
     
     # --- 1. HEADERS (Placed above the elements) ---
     header_y = 7.0
-    ax.text(2.25, header_y, "Input Encoding", ha='center', fontsize=15, fontweight='bold')
-    ax.text(7.25, header_y, "Transformer Block (Nx)", ha='center', fontsize=15, fontweight='bold')
-    ax.text(12.75, header_y, "Output Layer", ha='center', fontsize=15, fontweight='bold')
+    ax.text(1.75, header_y, "Input Encoding", ha='center', fontsize=15, fontweight='bold')
+    ax.text(5.2, header_y, "Transformer Block (Nx)", ha='center', fontsize=15, fontweight='bold')
+    ax.text(9.0, header_y, "Output Layer", ha='center', fontsize=15, fontweight='bold')
 
     # --- 2. INPUT ENCODING SECTION ---
-    # Draw individual feature boxes
+    # Draw individual feature boxes - reduced width
     input_features = ["Missing Value Handling", "Positional Encoding", "Feature Normalization"]
     for i, feature in enumerate(input_features):
-        draw_box(ax, 0.5, 2 + (i*1.4), 3.5, 1.1, feature, "#D1E8FF")
+        draw_box(ax, 0.5, 2 + (i*1.4), 2.5, 1.1, feature, "#D1E8FF")
     
     # Add "Nx(P+1)xE" description with explanation box - positioned to the right
     # to indicate it's the output of Input Encoding passed to Transformer
-    dimension_x = 4.65  # Moved right, between Input Encoding and Transformer
+    dimension_x = 3.5  # Adjusted for narrower layout
     dimension_y = 1.5
     ax.text(dimension_x, dimension_y, 'Dimensions: Nx(P+1)xE', ha='center', va='center',
            fontsize=15, fontweight='bold', color='#333333')
     
-    # Fine print explanation box below Nx(P+1)xE - made taller for bigger text
-    explanation_box_x = 2.1  # Shifted right to align with new position
+    # Fine print explanation box below Nx(P+1)xE - adjusted for narrower layout
+    explanation_box_x = 1.5  # Adjusted position
     explanation_box_y = 0.0
-    explanation_box_width = 5.1
+    explanation_box_width = 4.0  # Reduced width
     explanation_box_height = 1.3
     
     # Draw explanation box
@@ -117,33 +117,34 @@ def generate_transformer_diagram():
            linespacing=1.4)
 
     # --- 3. TRANSFORMER BLOCK (REPEATED) ---
-    # Draw "shadow" rectangles to indicate layers behind the main one
+    # Draw "shadow" rectangles to indicate layers behind the main one - adjusted position and width
     for offset in [0.3, 0.15]:
-        rect = patches.FancyBboxPatch((5.3 + offset, 1.8 + offset), 3.9, 4.4, boxstyle='round,pad=0.1', 
+        rect = patches.FancyBboxPatch((3.8 + offset, 1.8 + offset), 2.8, 4.4, boxstyle='round,pad=0.1',
                                       linewidth=1, edgecolor='#888', facecolor='#FFE5B4', alpha=0.4)
         ax.add_patch(rect)
     
-    # Main Transformer internal layers
+    # Main Transformer internal layers - adjusted position and width
     transformer_layers = ["Multi-Head Self-Attention", "Feed-Forward Networks", "Layer Normalization"]
     for i, layer in enumerate(transformer_layers):
-        draw_box(ax, 5.3, 2.0 + (i*1.5), 3.9, 1.2, layer, "white")
+        draw_box(ax, 3.8, 2.0 + (i*1.5), 2.8, 1.2, layer, "white")
 
     # --- 4. OUTPUT LAYER SECTION ---
+    # Adjusted position and reduced width
     output_features = ["Uncertainty Estimates", "Probability Predictions", "Classification Head"]
     for i, feature in enumerate(output_features):
-        draw_box(ax, 11, 2 + (i*1.4), 3.5, 1.1, feature, "#C1E1C1")
+        draw_box(ax, 7.5, 2 + (i*1.4), 2.5, 1.1, feature, "#C1E1C1")
 
     # --- 5. CONNECTORS (Arrows) ---
     arrow_props = dict(arrowstyle='->', lw=2.5, color='#444444', mutation_scale=20)
     
-    # Arrow from Input to Transformer
-    ax.annotate('', xy=(5.2, 4), xytext=(4.1, 4), arrowprops=arrow_props)
+    # Arrow from Input to Transformer - adjusted positions
+    ax.annotate('', xy=(3.7, 4), xytext=(3.1, 4), arrowprops=arrow_props)
     
-    # Arrow from Transformer to Output
-    ax.annotate('', xy=(10.9, 4), xytext=(9.6, 4), arrowprops=arrow_props)
+    # Arrow from Transformer to Output - adjusted positions
+    ax.annotate('', xy=(7.4, 4), xytext=(6.9, 4), arrowprops=arrow_props)
 
-    # Optional: Add small 'N' label to the stack
-    ax.text(9.4, 6.3, "N Layers", fontsize=10, fontweight='bold', color='#D35400')
+    # Optional: Add small 'N' label to the stack - adjusted position
+    ax.text(6.8, 6.3, "N Layers", fontsize=10, fontweight='bold', color='#D35400')
 
     plt.tight_layout()
     

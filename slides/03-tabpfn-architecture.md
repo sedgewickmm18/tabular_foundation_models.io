@@ -21,7 +21,58 @@ Bayesian priors over datasets.
 <!-- Vertical Slide: Architecture Details -->
 ## Architecture Components
 
-<img src="assets/images/tabpfn_architecture.svg" alt="TabPFN Architecture Components" style="max-width: 70%; height: auto;">
+<div class="columns" style="align-items: flex-start;">
+<div class="column" style="flex: 0 0 65%; max-width: 65%;">
+
+<img src="assets/images/tabpfn_architecture.svg" alt="TabPFN Architecture Components" style="max-width: 100%; height: auto;">
+
+</div>
+<div class="column" style="flex: 0 0 32%; max-width: 32%; display: flex; flex-direction: column; justify-content: center;">
+
+<div class="model-code-box clickable-code-box" style="cursor: pointer; margin-top: 6em;">
+<pre><code>TabImputeModel(
+  (feature_encoder): FeatureEncoder(
+    (observed_linear_layer): Sequential(
+      (0): Linear(in_features=1, out_features=1024, bias=True)
+      (1): GELU(approximate='none')
+      (2): Linear(in_features=1024, out_features=1024, bias=True)
+    )
+    (row_embedding): SinusoidalRowEmbedding()
+    (column_embedding): SinusoidalColumnEmbedding()
+    (row_cls_embedding): Embedding(12, 1024)
+    (col_cls_embedding): Embedding(12, 1024)
+  )
+  (transformer_blocks): ModuleList(
+    (0-11): 12 x TransformerEncoderLayer(
+      (self_attention_between_datapoints): MultiheadAttention(
+        (out_proj): NonDynamicallyQuantizableLinear(in_features=1024, out_features=1024, bias=True)
+      )
+      (self_attention_between_features): MultiheadAttention(
+        (out_proj): NonDynamicallyQuantizableLinear(in_features=1024, out_features=1024, bias=True)
+      )
+      (linear1): Linear(in_features=1024, out_features=1024, bias=True)
+      (linear2): Linear(in_features=1024, out_features=1024, bias=True)
+      (norm1): LayerNorm((1024,), eps=1e-05, elementwise_affine=True, bias=True)
+      (norm2): LayerNorm((1024,), eps=1e-05, elementwise_affine=True, bias=True)
+      (norm3): LayerNorm((1024,), eps=1e-05, elementwise_affine=True, bias=True)
+      (gelu): GELU(approximate='none')
+    )
+  )
+  (decoder): Decoder(
+    (layers): ModuleList(
+      (0): Linear(in_features=1024, out_features=1024, bias=True)
+      (1): GELU(approximate='none')
+      (2): Linear(in_features=1024, out_features=1024, bias=True)
+      (3): GELU(approximate='none')
+      (4): Linear(in_features=1024, out_features=5000, bias=True)
+    )
+  )
+)
+</code></pre>
+</div>
+
+</div>
+</div>
 
 <p style="font-size: 0.7em; margin-top: 10px;">
 Similar to <a href="https://poloclub.github.io/transformer-explainer/" target="_blank">GPT-2's multi-layered transformer architecture</a>, TabPFN uses stacked transformer blocks for processing tabular data.

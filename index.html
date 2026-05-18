@@ -417,6 +417,102 @@
                 }
             });
         });
+        
+        // Code Modal Functionality for model-code-box
+        Reveal.on('ready', event => {
+            console.log('[Code Modal] Initializing...');
+            
+            // Create code modal element
+            const codeModal = document.createElement('div');
+            codeModal.className = 'code-modal';
+            codeModal.innerHTML = `
+                <span class="code-modal-close">&times;</span>
+                <div class="code-modal-content"></div>
+            `;
+            document.body.appendChild(codeModal);
+            console.log('[Code Modal] Modal element created and added to body');
+            
+            const codeModalContent = codeModal.querySelector('.code-modal-content');
+            const codeCloseBtn = codeModal.querySelector('.code-modal-close');
+            
+            // Function to open code modal
+            function openCodeModal(element) {
+                console.log('[Code Modal] Opening modal for element:', element);
+                codeModal.classList.add('active');
+                // Clone the content to preserve formatting
+                const clonedContent = element.cloneNode(true);
+                // Remove the clickable class from the clone
+                clonedContent.classList.remove('clickable-code-box');
+                clonedContent.style.cursor = 'default';
+                clonedContent.style.margin = '0';
+                clonedContent.style.maxHeight = 'none';
+                codeModalContent.innerHTML = '';
+                codeModalContent.appendChild(clonedContent);
+                // Prevent reveal.js navigation while modal is open
+                Reveal.configure({ keyboard: false });
+                console.log('[Code Modal] Modal opened successfully');
+            }
+            
+            // Function to close code modal
+            function closeCodeModal() {
+                console.log('[Code Modal] Closing modal');
+                codeModal.classList.remove('active');
+                // Re-enable reveal.js navigation
+                Reveal.configure({ keyboard: true });
+            }
+            
+            // Add click handlers to all clickable code boxes using event delegation
+            function addCodeBoxClickHandlers() {
+                const codeBoxes = document.querySelectorAll('.reveal .clickable-code-box');
+                console.log('[Code Modal] Found', codeBoxes.length, 'clickable code boxes');
+                
+                codeBoxes.forEach((box, index) => {
+                    console.log('[Code Modal] Adding handler to box', index, box);
+                    // Remove any existing click handlers
+                    if (box._codeModalClickHandler) {
+                        box.removeEventListener('click', box._codeModalClickHandler);
+                    }
+                    
+                    // Create and store the handler
+                    box._codeModalClickHandler = function(e) {
+                        console.log('[Code Modal] Click detected on box', index);
+                        e.preventDefault();
+                        e.stopPropagation();
+                        openCodeModal(box);
+                    };
+                    
+                    box.addEventListener('click', box._codeModalClickHandler);
+                    console.log('[Code Modal] Handler attached to box', index);
+                });
+            }
+            
+            // Initial setup
+            console.log('[Code Modal] Running initial setup');
+            addCodeBoxClickHandlers();
+            
+            // Re-add handlers when slides change (for dynamically loaded content)
+            Reveal.on('slidechanged', () => {
+                console.log('[Code Modal] Slide changed, re-adding handlers');
+                addCodeBoxClickHandlers();
+            });
+            
+            // Close modal on click
+            codeCloseBtn.addEventListener('click', closeCodeModal);
+            codeModal.addEventListener('click', function(e) {
+                if (e.target === codeModal) {
+                    closeCodeModal();
+                }
+            });
+            
+            // Close modal on Escape key
+            document.addEventListener('keydown', function(e) {
+                if (e.key === 'Escape' && codeModal.classList.contains('active')) {
+                    closeCodeModal();
+                }
+            });
+            
+            console.log('[Code Modal] Initialization complete');
+        });
     </script>
 </body>
 </html>

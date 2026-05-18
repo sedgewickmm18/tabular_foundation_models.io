@@ -58,6 +58,24 @@ Clear trend toward automation and generalization. Foundation models adapt transf
 
 --
 
+<!-- Vertical Slide: On Tabular and Time Series Data -->
+## On Tabular and Time Series Data
+
+<div style="text-align: center;">
+<img src="assets/images/fft_duality_diagram.png" alt="FFT Duality Diagram" style="max-width: 70%; height: auto;">
+</div>
+
+<div style="margin-top: 1.5rem; padding: 1rem; background-color: #f8f9fa; border: 2px solid #3498db; border-radius: 8px; font-size: 0.9em;">
+
+Since tabular and time series data can be regarded as two sides of the same coin, the architecture foundation models for tabular and time series data also share common elements.
+
+</div>
+
+Note:
+This diagram illustrates the fundamental duality between tabular data and time series through FFT/IFFT transformations. Each row in a table can be viewed as frequency weights (volume knobs) that synthesize a time series signal via IFFT. Conversely, a time series window can be analyzed via FFT to extract frequency components that form a tabular row. This mathematical equivalence explains why transformer architectures work well for both domains.
+
+--
+
 <!-- Vertical Slide: Comparison -->
 ## Foundation Models vs Traditional ML
 
