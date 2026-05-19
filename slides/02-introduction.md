@@ -65,9 +65,11 @@ Clear trend toward automation and generalization. Foundation models adapt transf
 <img src="assets/images/fft_duality_diagram.png" alt="FFT Duality Diagram" style="max-width: 70%; height: auto;">
 </div>
 
-<div style="margin-top: 1.5rem; padding: 1rem; background-color: #f8f9fa; border: 2px solid #3498db; border-radius: 8px; font-size: 0.9em;">
+<div style="margin-top: 1.5rem; padding: 1rem; background-color: #f8f9fa; border: 2px solid #3498db; border-radius: 8px; font-size: 0.8em;">
 
 Since tabular and time series data can be regarded as two sides of the same coin, the architecture foundation models for tabular and time series data also share common elements.
+
+**Caveat**: Underlying assumption here is that the tabular data is canonically ordered.
 
 </div>
 

@@ -31,6 +31,7 @@ Bayesian priors over datasets.
 
 <div class="model-code-box clickable-code-box" style="cursor: pointer; margin-top: 6em;">
 <pre><code>TabImputeModel(
+  # NxM --> Nx(M+12)x13x1024
   (feature_encoder): FeatureEncoder(
     (observed_linear_layer): Sequential(
       (0): Linear(in_features=1, out_features=1024, bias=True)
@@ -67,6 +68,8 @@ Bayesian priors over datasets.
       (4): Linear(in_features=1024, out_features=5000, bias=True)
     )
   )
+  # Nx(M+12)x13x1024 --> Nx(M+12)x13x5000 - last dimension for distribution
+  # Impute: medians = self.bar_distribution.median(logits=preds)
 )
 </code></pre>
 </div>
@@ -123,18 +126,24 @@ data where both feature interactions and example-based learning are crucial.
 ## Training on Synthetic Data - Structural Causal Modeling
 
 <div class="columns">
-<div class="column">
+<div class="column" style="font-size: 0.85em; text-align: left;">
 
 ### The SCM Process
 
 **Step 1: Sampling Noise**
 Every feature starts as a random draw from a distribution (e.g., Gaussian). This is the Exogenous component.
 
+<div style="height: 0.5em;"></div>
+
 **Step 2: Building the DAG**
 A random Directed Acyclic Graph is generated. Some features are "parents" and some are "children."
 
+<div style="height: 0.5em;"></div>
+
 **Step 3: Sampling Functions**
 For every node, a random mathematical function (MLPs, polynomials, or trig functions) is sampled to define how the children relate to the parents.
+
+<div style="height: 0.5em;"></div>
 
 **Step 4: Creating the Dataset**
 By running thousands of these unique SCMs, TabPFN creates a "Prior" of millions of synthetic tables. The model learns to predict Y given X across all these possible worlds.
@@ -155,7 +164,7 @@ Structural Causal Models (SCMs) provide a principled way to generate diverse syn
 <!-- Vertical Slide: Mathematical Background -->
 ## Mathematical stuff
 
-<div style="border: 2px solid #ccc; padding: 15px; margin-bottom: 20px; text-align: left;">
+<div style="border: 2px solid #ccc; padding: 15px; margin-bottom: 20px; text-align: left; font-size: 0.9em; line-height: 1.5;">
 
 In the context of tabular foundation models like TabPFN, the posterior predictive distribution (PPD) is the probability distribution of a new target y<sub>new</sub> given a new feature vector x<sub>new</sub> and a training dataset *D*:=(X<sub>train</sub>,y<sub>train</sub>)
 
@@ -171,7 +180,7 @@ The story becomes a bit more mixed for models like TabPFN-2.5 that add real-life
 
 </div>
 
-<div style="border: 2px solid #ccc; padding: 15px; margin-bottom: 20px; text-align: left;">
+<div style="border: 2px solid #ccc; padding: 15px; margin-bottom: 20px; text-align: left; font-size: 0.9em; line-height: 1.5;">
 
 
 **Marginalization Over Tasks leads to invariance to column order** 

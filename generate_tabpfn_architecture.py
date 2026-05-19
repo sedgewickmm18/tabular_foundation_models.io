@@ -4,9 +4,9 @@ from matplotlib.patches import FancyBboxPatch
 
 def generate_transformer_diagram():
     # Set up the figure and axis - reduced width to fit alongside model code box
-    fig, ax = plt.subplots(figsize=(11, 9))
+    fig, ax = plt.subplots(figsize=(11, 7.8))
     ax.set_xlim(-3, 10.5)
-    ax.set_ylim(-0.5, 8.5)
+    ax.set_ylim(1.2, 6.5)
     ax.axis('off')
 
     # Helper function to draw styled boxes
@@ -86,14 +86,15 @@ def generate_transformer_diagram():
     for i, feature in enumerate(input_features):
         draw_box(ax, 0.5, 2 + (i*1.4), 2.5, 1.1, feature, "#D1E8FF")
     
-    # Add "Nx(P+1)xE" description with explanation box - positioned to the right
+    # Add "Nx(P+12)x13x(1024)" description with explanation box - positioned to the right
     # to indicate it's the output of Input Encoding passed to Transformer
+    '''
     dimension_x = 3.5  # Adjusted for narrower layout
     dimension_y = 1.5
     ax.text(dimension_x, dimension_y, 'Dimensions: Nx(P+1)xE', ha='center', va='center',
            fontsize=15, fontweight='bold', color='#333333')
     
-    # Fine print explanation box below Nx(P+1)xE - adjusted for narrower layout
+    # Fine print explanation box below Nx(P+12)x1024 - adjusted for narrower layout
     explanation_box_x = 1.5  # Adjusted position
     explanation_box_y = 0.0
     explanation_box_width = 4.0  # Reduced width
@@ -115,6 +116,7 @@ def generate_transformer_diagram():
     ax.text(explanation_box_x + explanation_box_width/2, explanation_box_y + explanation_box_height/2,
            explanation_text, ha='center', va='center', fontsize=12, color='#333333',
            linespacing=1.4)
+    '''
 
     # --- 3. TRANSFORMER BLOCK (REPEATED) ---
     # Draw "shadow" rectangles to indicate layers behind the main one - adjusted position and width
@@ -146,12 +148,13 @@ def generate_transformer_diagram():
     # Optional: Add small 'N' label to the stack - adjusted position
     ax.text(6.8, 6.3, "N Layers", fontsize=10, fontweight='bold', color='#D35400')
 
-    plt.tight_layout()
+    plt.tight_layout(pad=0.4)
     
     # Save as SVG
     output_path = 'assets/images/tabpfn_architecture.svg'
-    plt.savefig(output_path, format='svg', bbox_inches='tight', dpi=300)
+    plt.savefig(output_path, format='svg', bbox_inches='tight', pad_inches=0.05, dpi=300)
     print(f"Diagram saved to {output_path}")
+    #plt.show()
     plt.close()
 
 if __name__ == "__main__":
