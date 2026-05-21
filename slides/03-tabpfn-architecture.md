@@ -162,30 +162,47 @@ Structural Causal Models (SCMs) provide a principled way to generate diverse syn
 --
 
 <!-- Vertical Slide: Mathematical Background -->
-## Mathematical stuff
+## Predictive posterior by example with sliding-window linear SCMs
 
-<div style="border: 2px solid #ccc; padding: 15px; margin-bottom: 20px; text-align: left; font-size: 0.9em; line-height: 1.5;">
+<div style="border: 2px solid #ccc; padding: 15px; margin-bottom: 20px; text-align: left; font-size: 0.65em; line-height: 1.2;">
 
-In the context of tabular foundation models like TabPFN, the posterior predictive distribution (PPD) is the probability distribution of a new target y<sub>new</sub> given a new feature vector x<sub>new</sub> and a training dataset *D*:=(X<sub>train</sub>,y<sub>train</sub>)
+The posterior predictive distribution (PPD) gives the probability of a new target y<sub>new</sub> given features x<sub>new</sub> and training data *D*. It marginalizes over tasks &Phi; generated from SCM DAGs:
 
-Mathematically, the PPD is defined as:
+<img src="assets/images/math/posterior_predictive_distribution.svg" alt="Posterior Predictive Distribution" style="display: block; margin: 0.5em auto 0.5em auto; max-width: 30%;">
 
-<img src="assets/images/math/posterior_predictive_distribution.svg" alt="Posterior Predictive Distribution" style="display: block; margin: 1em auto; max-width: 40%;">
-
-The tasks &Phi; are generated from the SCM DAGs (see previous slide): The process to 'sample' a DAG, to assign operators to the nodes, to add noise and then to generate training data constitutes such a task - the more the better we approximate the integral above.
-
-Since different tasks might produces similar training data - for example, near linear relationship tend to happen more frequently, the likelihood of those task w.r.t. the full training data, P(D|&Phi;) is higher.
-
-The story becomes a bit more mixed for models like TabPFN-2.5 that add real-life data to the training set.
+Tasks producing similar training data (e.g., near-linear relationships) have higher likelihood P(D|&Phi;), better approximating the integral.
 
 </div>
 
-<div style="border: 2px solid #ccc; padding: 15px; margin-bottom: 20px; text-align: left; font-size: 0.9em; line-height: 1.5;">
+<div class="columns">
+<div class="column" style="flex: 0 0 70%;">
 
+<img src="assets/images/marginal_effects.png" alt="Marginal Effects" style="display: block; margin: 1em auto; max-width: 100%;">
 
-**Marginalization Over Tasks leads to invariance to column order** 
+</div>
+<div class="column" style="flex: 0 0 30%; border: 2px solid #ccc; padding: 10px; text-align: left; font-size: 0.6em; line-height: 1.2; display: flex; align-items: flex-end; padding-bottom: 30px;margin-top: 5%">
 
-The PPD works by "averaging" over many potential underlying functions (latent tasks φ) that _could_ have generated the data. Since the "correct" way to map features to labels is based on their values and relationships, not their position in a list, the integral naturally ignores arbitrary column ordering.
+<div>
+
+This example uses a localized Toeplitz-like weight matrix for linear transformations on bivariate tabular data, affecting only rows with distance &le; 5. Coeffients are sampled from ]-1,1[.
+
+This is a far cry from the generic SCM process described on the previous slide, but highlights the structural impacts.
+
+In the second figure (right) coeffiencts are further restricted to positive numbers.
+
+</div>
+
+</div>
+</div>
+
+<div style="border: 2px solid #ccc; padding: 15px; margin-bottom: 20px; text-align: left; font-size: 0.65em; line-height: 1.2;">
+
+**The "Fan" Spread**: The teal plot shows a strictly positive "causal cone." This visualizes a prior where the foundation model assumes that increasing an input never results in a decrease in the output across the marginalized window.
+
+**Marginalization Effect**: By summing the weights in the code (np.sum(weights)), we are effectively integrating out the row-specific variations to see the total structural impact over your 5-row lookback.
+
+**Density vs. Bound**: The shaded areas represent the functional uncertainty. In the mixed case, the uncertainty is symmetric around zero; in the positive case, the uncertainty is "pushed" into the upper quadrant, representing a strong inductive bias.
+
 </div>
 
 

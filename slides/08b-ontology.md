@@ -2,6 +2,11 @@
 ## Tabular Foundation Models and Ontology
 ### Leveraging Domain Knowledge
 
+<div style="display: flex; gap: 20px; align-items: center;">
+
+<!-- Left column: Existing content -->
+<div style="flex: 1; font-size: 0.9em;">
+
 **When Ontology is Known**:
 - Domain structure is well-defined
 - Feature relationships are understood
@@ -14,10 +19,44 @@
 - Handling high cardinality features
 - Ontology-aware preprocessing
 
+</div>
+
+<!-- Right column: Ontology example -->
+<div style="flex: 1; font-size: 0.7em; text-align: left; border: 2px solid #2D6A4F; padding: 15px; border-radius: 8px; background-color: #F0FFF4;">
+
+### Ontology example real estate - Leasing & Property Classifications
+
+**Gewerbemietverträge** (Commercial lease contracts)
+→ `contract_type`, `lease_category`
+
+**Pauschalmiete** (Flat rent)
+→ `rent_type`, `flat_rent_amount`
+
+**Betriebskosten** (Operating costs)
+→ `operating_costs`, `ancillary_costs`
+
+**Immobilienklassen** (Property classes)
+→ `property_class`, `asset_category`
+
+**Mieterausbau** (Tenant improvements)
+→ `tenant_improvements`, `fit_out_costs`
+
+**Indexierung** (Indexation)
+→ `index_type`, `adjustment_rate`
+
+**Kündigungsfrist** (Notice period)
+→ `notice_period_months`, `termination_date`
+
+</div>
+
+</div>
+
 Note:
 When you have a well-defined ontology for your data—understanding what each
 feature represents and how they relate—you can significantly improve TabPFN's
-performance through intelligent preprocessing and feature engineering.
+performance through intelligent preprocessing and feature engineering. The real
+estate example shows how German business terminology maps to structured data
+columns, demonstrating the importance of domain knowledge in feature design.
 
 --
 
@@ -58,7 +97,13 @@ performance through intelligent preprocessing and feature engineering.
 
 </div>
 
-<div style="margin-top: 30px; font-size: 0.65em; color: #555;">
+<div style="margin-top: 15px; font-size: 0.6em; color: #666; text-align: center; font-style: italic;">
+
+Use knowledge about data (ontology) *and* feature analysis (PCA, MCA, FAMD) to reduce the number of features → less columns improve performance and accuracy of foundation models significantly
+
+</div>
+
+<div style="margin-top: 20px; font-size: 0.65em; color: #555;">
 
 **Key Principle**: Use your ontology to guide preprocessing, and let TabPFN discover patterns within that structured representation.
 
