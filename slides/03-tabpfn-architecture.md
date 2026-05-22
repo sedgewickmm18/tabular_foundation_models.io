@@ -184,7 +184,7 @@ Tasks producing similar training data (e.g., near-linear relationships) have hig
 
 <div>
 
-This example uses a localized Toeplitz-like weight matrix for linear transformations on bivariate tabular data, affecting only rows with distance &le; 5. Coeffients are sampled from ]-1,1[.
+This example uses a localized weight matrix for linear transformations on bivariate tabular data without bias, affecting only rows with distance &le; 5. Coeffients are sampled from ]-1,1[.
 
 This is a far cry from the generic SCM process described on the previous slide, but highlights the structural impacts.
 
@@ -197,7 +197,7 @@ In the second figure (right) coeffiencts are further restricted to positive numb
 
 <div style="border: 2px solid #ccc; padding: 15px; margin-bottom: 20px; text-align: left; font-size: 0.65em; line-height: 1.2;">
 
-**The "Fan" Spread**: The teal plot shows a strictly positive "causal cone." This visualizes a prior where the foundation model assumes that increasing an input never results in a decrease in the output across the marginalized window.
+**The "Fan" Spread**: The teal plot shows a strictly positive "causal cone." This visualizes a prior where the foundation model assumes that increasing an input never results in a decrease in the output across the marginalized window. Starting with positive values in the first 5 columns results in positive values 'forever'.
 
 **Marginalization Effect**: By summing the weights in the code (np.sum(weights)), we are effectively integrating out the row-specific variations to see the total structural impact over your 5-row lookback.
 

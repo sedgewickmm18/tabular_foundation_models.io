@@ -1,18 +1,41 @@
 <!-- Main Slide: Introduction -->
-## What are Foundation Models for Tables?
+## Paradigm Shift
 
-### The Paradigm Shift
-Traditional ML for tabular data:
+<div style="display: flex; gap: 2rem; align-items: center; margin-bottom: 2rem;">
+
+<div style="flex: 1; border: 2px solid #666; padding: 1.5rem; border-radius: 8px; text-align: left; font-size: 0.8em;">
+
+**Traditional ML for tabular data:**
 - Train a model for each specific task
 - Extensive hyperparameter tuning
 - Feature engineering required
 - Limited generalization
 
-**Foundation Models**:
+</div>
+
+<div style="flex: 1;">
+<img src="assets/images/crispdm_diagram.svg" alt="CRISP-DM Diagram" style="max-width: 60%; height: auto;">
+</div>
+
+</div>
+
+<div style="display: flex; gap: 2rem; align-items: center;">
+
+<div style="flex: 1; border: 2px solid #666; padding: 1.5rem; border-radius: 8px; text-align: left; font-size: 0.8em;">
+
+**Foundation Models for tabular data:**
 - Single pre-trained model
 - Zero-shot or few-shot learning
 - Minimal tuning required
 - Generalizes across tasks
+
+</div>
+
+<div style="flex: 1;">
+<img src="assets/images/crispdm_diagram_simplified.svg" alt="Simplified CRISP-DM Diagram" style="max-width: 60%; height: auto;">
+</div>
+
+</div>
 
 Note:
 Foundation models represent a fundamental shift in how we approach machine learning
@@ -55,26 +78,6 @@ Prior-fitted networks for small tabular classification
 
 Note:
 Clear trend toward automation and generalization. Foundation models adapt transformer success from NLP/vision to tabular data through meta-learning on synthetic data.
-
---
-
-<!-- Vertical Slide: On Tabular and Time Series Data -->
-## On Tabular and Time Series Data
-
-<div style="text-align: center;">
-<img src="assets/images/fft_duality_diagram.png" alt="FFT Duality Diagram" style="max-width: 70%; height: auto;">
-</div>
-
-<div style="margin-top: 1.5rem; padding: 1rem; background-color: #f8f9fa; border: 2px solid #3498db; border-radius: 8px; font-size: 0.8em;">
-
-Since tabular and time series data can be regarded as two sides of the same coin, the architecture foundation models for tabular and time series data also share common elements.
-
-**Caveat**: Underlying assumption here is that the tabular data is canonically ordered.
-
-</div>
-
-Note:
-This diagram illustrates the fundamental duality between tabular data and time series through FFT/IFFT transformations. Each row in a table can be viewed as frequency weights (volume knobs) that synthesize a time series signal via IFFT. Conversely, a time series window can be analyzed via FFT to extract frequency components that form a tabular row. This mathematical equivalence explains why transformer architectures work well for both domains.
 
 --
 

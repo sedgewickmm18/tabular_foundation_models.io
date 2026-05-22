@@ -1,5 +1,5 @@
-<!-- Main Slide: Chunking & Reconciliation -->
-## Chunking & Reconciliation
+<!-- Main Slide: Appendix B -->
+## Appendix B: Chunking & Reconciliation
 ### Managing Memory and Context Windows
 
 **Key Topics**:
@@ -41,61 +41,6 @@ Note:
 The quadratic memory requirement of transformers means that doubling the
 dataset size quadruples the memory needed. TabICL's improvements make it
 more memory-efficient, but chunking is still necessary for very large datasets.
-
---
-
-<!-- Vertical Slide: Tumbling Window Chunking -->
-## Tumbling Window Chunking
-### Static Boundaries and Their Impact
-
-<img src="assets/images/tumbling_window_chunking.svg" alt="Tumbling Window Chunking" style="width: 50%; margin: 10px auto; display: block;">
-
-**Concept**: Divide data into non-overlapping chunks
-- Process each chunk independently
-- Simple and fast
-- **Problem**: Boundary placement affects imputation quality
-
-**Key Issue**: Missing values near boundaries lack full context
-- Chunk 1 context ends abruptly
-- Chunk 2 context starts abruptly
-- Information is lost at the boundary
-
-Note:
-The diagram shows how a static chunk boundary at position 4.5 cuts off
-context. Missing values near this boundary receive lower-quality imputations
-because the model cannot see the full pattern across the boundary.
-
---
-
-<!-- Vertical Slide: Sliding Window Chunking -->
-## Sliding Window Chunking
-<div style="font-size: 0.85em;">
-
-### Triple Overlap Strategy
-
-<img src="assets/images/sliding_window_chunking.svg" alt="Sliding Window Chunking" style="width: 45%; margin: 8px auto; display: block;">
-
-**Concept**: Overlapping windows ensure complete coverage
-- Each missing value is seen in **3 different contexts**:
-  1. At the **end** of a window
-  2. In the **middle** of a window (best quality)
-  3. At the **start** of a window
-
-**Benefits**:
-- No information loss at boundaries
-- Multiple predictions per missing value
-- Higher quality imputations
-
-**Challenge**: How to combine multiple predictions?
-→ **Reconciliation** is needed!
-
-</div>
-
-Note:
-The sliding window approach generates multiple predictions for each missing
-value. The target hole at index 5 is covered by three different windows,
-each providing a different perspective. We need a principled way to combine
-these predictions.
 
 --
 
@@ -184,50 +129,6 @@ Note:
 The Linear Opinion Pool treats each window's prediction as a vote,
 weighted by its quality. This is similar to ensemble averaging in
 traditional machine learning, where multiple models vote on the outcome.
-
---
-
-<!-- Vertical Slide: Log-Opinion Pool -->
-## Log-Opinion Pool
-### Product of Experts
-
-<div style="text-align: center; margin-bottom: 1em;">
-<div style="display: inline-block; margin-right: 2em;">
-<img src="assets/images/math/log_opinion_pool.svg" alt="Log Opinion Pool formula" style="max-width: 50%;">
-</div>
-<div style="display: inline-block;">
-<strong>Equivalent to:</strong><br>
-<img src="assets/images/math/log_opinion_pool_product.svg" alt="Log Opinion Pool product form" style="max-width: 50%;">
-</div>
-</div>
-
-<div style="display: flex; gap: 20px; align-items: flex-start;">
-
-<div style="flex: 1.2; border: 2px solid #6A4C93; padding: 15px; border-radius: 8px; background-color: #F5F0FF;">
-<img src="assets/images/log_opinion_pooling_plot.png" alt="Log-Opinion Pool visualization" style="display: block; margin: 0 auto; max-width: 85%;">
-</div>
-
-<div style="flex: 0.8; border: 2px solid #2D6A4F; padding: 15px; border-radius: 8px; background-color: #F0FFF4; font-size: 0.85em;">
-
-**Characteristics**:
-- **Product** of probability distributions (in log space)
-- Acts as **intersection of beliefs**
-- More **conservative**: requires agreement across windows
-- Preferred for foundation models
-
-**Why Preferred?**
-- If one window is **certain** (sharp peak), result stays sharp
-- If one window is **uncertain** (flat), it doesn't dominate
-- Better captures the consensus of expert predictions
-
-</div>
-
-</div>
-
-Note:
-The Log-Opinion Pool is mathematically preferred because it treats each
-window as an expert that must agree. If any window is highly confident
-about a particular value, that confidence is preserved in the final result.
 
 --
 

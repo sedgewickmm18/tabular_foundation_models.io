@@ -39,7 +39,7 @@ The two-stage architecture separates feature processing from sequential learning
 <!-- Vertical Slide: Mathematical Improvements -->
 ## Mathematical Enhancements
 
-<div style="display: flex; gap: 20px; font-size: 0.8em;">
+<div style="display: flex; gap: 20px; font-size: 0.74em; align-items: stretch;">
 
 <div style="flex: 1; border: 2px solid #C1121F; padding: 15px; border-radius: 8px; background-color: #FFF5F5;">
 
@@ -67,7 +67,11 @@ TabICL v2 moved away from binning to use Quantile Regression:
 
 </div>
 
-<div style="margin-top: 20px; font-size: 0.75em; text-align: center;">
+<div style="margin-top: 18px; text-align: center;">
+  <img src="assets/images/compare_loss_functions.png" alt="Comparison of cross-entropy loss and pinball loss" style="max-width: 88%; max-height: 40vh; border: 1px solid #ddd; border-radius: 8px;">
+</div>
+
+<div style="margin-top: 12px; font-size: 0.75em; text-align: center;">
 Reference: <a href="https://arxiv.org/html/2602.11139v1" target="_blank">https://arxiv.org/html/2602.11139v1</a>
 </div>
 
