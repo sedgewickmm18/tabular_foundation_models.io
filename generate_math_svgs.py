@@ -43,6 +43,11 @@ formulas = {
     
     # From mathematical background slide
     'posterior_predictive_distribution': r'$P(y_{\text{new}}|x_{\text{new}},D)=\int P(y_{\text{new}}|x_{\text{new}},\phi )\,P(\phi |D)\,d\phi$',
+    
+    # KL divergence and entropy formulas
+    'kl_divergence': r'$D_{\text{KL}}(p \| q) = H(p, q) - H(p)$',
+    'training_objective_tasks': r'$\underset{\theta}{\text{min}} \; \mathbb{E}_{\text{Task} \sim \tau} \left[ \mathbb{E}_{\mathcal{D} \sim \text{Task}} \left[ \text{NLL}(\theta, \mathcal{D}) \right] \right]$',
+    'posterior_predictive_marginalized': r'$\mathcal{P}(y | x, \mathcal{D}) = \int \mathcal{P}(y | x, \theta) \, p(\theta | \mathcal{D}) \, d\theta$',
 }
 
 def latex_to_svg_matplotlib(latex_code, output_path, fontsize=20):
