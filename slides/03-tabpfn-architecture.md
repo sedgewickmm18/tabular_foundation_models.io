@@ -209,50 +209,28 @@ The KL divergence measures how one probability distribution differs from another
 
 --
 
+<!-- Vertical Slide: Posterior Predictive Visualization -->
+## Posterior Predictive Distribution - Visual Example
 
-<!-- Vertical Slide: Mathematical Background -->
-## Predictive posterior by example with sliding-window linear SCMs
+<div style="text-align: center;">
 
-<div style="border: 2px solid #ccc; padding: 15px; margin-bottom: 20px; text-align: left; font-size: 0.65em; line-height: 1.2;">
-
-The posterior predictive distribution (PPD) gives the probability of a new target y<sub>new</sub> given features x<sub>new</sub> and training data *D*. It marginalizes over tasks &Phi; generated from SCM DAGs:
-
-<img src="assets/images/math/posterior_predictive_distribution.svg" alt="Posterior Predictive Distribution" style="display: block; margin: 0.5em auto 0.5em auto; max-width: 30%;">
-
-Tasks producing similar training data (e.g., near-linear relationships) have higher likelihood P(D|&Phi;), better approximating the integral.
+![Posterior Predictive Example](assets/images/posterior_predictive_example.png)
 
 </div>
 
-<div class="columns">
-<div class="column" style="flex: 0 0 70%;">
+<div style="border: 2px solid #ccc; padding: 15px; margin-top: 20px; text-align: left; font-size: 0.65em; line-height: 1.2;">
 
-<img src="assets/images/marginal_effects.png" alt="Marginal Effects" style="display: block; margin: 1em auto; max-width: 100%;">
+**Left**: Training data 𝒟 with 8 points following a linear relationship.
 
-</div>
-<div class="column" style="flex: 0 0 30%; border: 2px solid #ccc; padding: 10px; text-align: left; font-size: 0.6em; line-height: 1.2; display: flex; align-items: flex-end; padding-bottom: 30px;margin-top: 5%">
+**Middle**: 30 candidate models 𝒫(y|x,θ) with different parameters θ. Line opacity represents posterior probability p(θ|𝒟) - models that fit the data better are more opaque.
 
-<div>
-
-This example uses a localized weight matrix for linear transformations on bivariate tabular data without bias, affecting only rows with distance &le; 5. Coeffients are sampled from ]-1,1[.
-
-This is a far cry from the generic SCM process described on the previous slide, but highlights the structural impacts.
-
-In the second figure (right) coeffiencts are further restricted to positive numbers.
+**Right**: The posterior predictive distribution 𝒫(y|x_new,𝒟) at x_new=4.5, obtained by marginalizing over all models weighted by their posterior probabilities. This shows the uncertainty in the prediction.
 
 </div>
 
-</div>
-</div>
-
-<div style="border: 2px solid #ccc; padding: 15px; margin-bottom: 20px; text-align: left; font-size: 0.65em; line-height: 1.2;">
-
-**The "Fan" Spread**: The teal plot shows a strictly positive "causal cone." This visualizes a prior where the foundation model assumes that increasing an input never results in a decrease in the output across the marginalized window. Starting with positive values in the first 5 columns results in positive values 'forever'.
-
-**Marginalization Effect**: By summing the weights in the code (np.sum(weights)), we are effectively integrating out the row-specific variations to see the total structural impact over your 5-row lookback.
-
-**Density vs. Bound**: The shaded areas represent the functional uncertainty. In the mixed case, the uncertainty is symmetric around zero; in the positive case, the uncertainty is "pushed" into the upper quadrant, representing a strong inductive bias.
-
-</div>
+Note:
+This visualization demonstrates the core concept of Bayesian inference: instead of selecting a single "best" model, we maintain a distribution over all possible models weighted by how well they explain the observed data. The final prediction naturally incorporates uncertainty from both model uncertainty and data noise. TabPFN learns to approximate this marginalization process through its transformer architecture trained on millions of synthetic tasks.
+---
 
 
 --
