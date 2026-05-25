@@ -668,4 +668,93 @@
     color: #bbb;
     text-decoration: none;
 }
+
+/* ========================================
+   Interactive Plot Containers (Plotly)
+   ======================================== */
+
+/* Standard interactive plot container */
+.plot-container {
+    position: relative;
+    width: 100%;
+    height: 600px;
+    margin: 20px auto;
+}
+
+.plot-container iframe {
+    width: 100%;
+    height: 100%;
+    border: none;
+    background: white;
+    border-radius: 8px;
+    box-shadow: 0 2px 8px var(--shadow-color);
+}
+
+/* Smaller plots for side-by-side layouts */
+.plot-container.small {
+    height: 450px;
+}
+
+/* Full-screen plots for detailed visualizations */
+.plot-container.fullscreen {
+    height: 700px;
+}
+
+/* Compact plots for slides with more content */
+.plot-container.compact {
+    height: 400px;
+    margin: 10px auto;
+}
+
+/* Remove border and shadow from iframe plots */
+.reveal .plot-container iframe {
+    border: none;
+    box-shadow: none;
+}
+
+/* Hover effect for interactive plots */
+.plot-container:hover {
+    transform: translateY(-2px);
+    transition: transform 0.2s ease;
+}
+
+/* Loading indicator for iframes */
+.plot-container::before {
+    content: "Loading interactive plot...";
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    color: var(--text-light);
+    font-size: 0.9em;
+    z-index: -1;
+}
+
+/* Responsive adjustments for interactive plots */
+@media screen and (max-width: 768px) {
+    .plot-container {
+        height: 400px;
+    }
+    
+    .plot-container.small {
+        height: 300px;
+    }
+    
+    .plot-container.fullscreen {
+        height: 500px;
+    }
+}
+
+/* Print styles for interactive plots - show fallback */
+@media print {
+    .plot-container iframe {
+        display: none;
+    }
+    
+    .plot-container img {
+        display: block !important;
+        max-width: 100%;
+        height: auto;
+    }
+}
 /* Made with Bob */

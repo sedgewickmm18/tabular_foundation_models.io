@@ -4,6 +4,7 @@ import matplotlib.pyplot as plt
 import numpy as np
 
 OUTPUT_PATH = Path("assets/images/compare_loss_functions.png")
+INTERACTIVE_PATH = Path("assets/interactive/compare_loss_functions.html")
 
 # --- Configuration ---
 # X-axis for Pinball (residuals)
@@ -72,8 +73,48 @@ ax2.legend(loc="upper center", ncol=2, fontsize="small")
 ax2.grid(True, linestyle="--", alpha=0.6)
 
 plt.tight_layout()
+
+# Save static PNG
 OUTPUT_PATH.parent.mkdir(parents=True, exist_ok=True)
 plt.savefig(OUTPUT_PATH, dpi=200, bbox_inches="tight")
+print(f"✓ Saved static PNG: {OUTPUT_PATH}")
+
+# Save interactive HTML
+try:
+    import plotly.tools as tls
+    
+    plotly_fig = tls.mpl_to_plotly(fig)
+    
+    # Enhance with Plotly features
+    plotly_fig.update_layout(
+        hovermode='closest',
+        template='plotly_white',
+        font=dict(size=12),
+        showlegend=True
+    )
+    
+    # Improve hover information for both subplots
+    plotly_fig.update_traces(
+        hovertemplate='<b>Value</b>: %{x:.2f}<br><b>Loss</b>: %{y:.2f}<extra></extra>'
+    )
+    
+    INTERACTIVE_PATH.parent.mkdir(parents=True, exist_ok=True)
+    plotly_fig.write_html(
+        INTERACTIVE_PATH,
+        include_plotlyjs='cdn',
+        config={
+            'displayModeBar': True,
+            'displaylogo': False,
+            'modeBarButtonsToRemove': ['lasso2d', 'select2d']
+        }
+    )
+    print(f"✓ Saved interactive HTML: {INTERACTIVE_PATH}")
+    
+except ImportError:
+    print("⚠️  Plotly not installed. Keeping static version only")
+except Exception as e:
+    print(f"⚠️  Plotly conversion failed: {e}")
+    print("   Keeping static version only")
+
 plt.close(fig)
-print(f"Saved diagram to {OUTPUT_PATH}")
 

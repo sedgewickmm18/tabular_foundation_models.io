@@ -241,7 +241,12 @@ This visualization demonstrates the core concept of Bayesian inference: instead 
 <div class="columns">
 <div class="column">
 
-![Quantile Binning](assets/images/quantile_binning.png)
+<div class="plot-container small">
+  <iframe src="assets/interactive/quantile_binning.html"
+          title="Quantile Binning Visualization">
+    <img src="assets/images/quantile_binning.png" alt="Quantile Binning">
+  </iframe>
+</div>
 
 </div>
 <div class="column" style="font-size: 0.75em; border: 2px solid #ccc; padding: 15px; text-align: left;">

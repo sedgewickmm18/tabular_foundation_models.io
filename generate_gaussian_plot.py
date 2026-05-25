@@ -1,5 +1,6 @@
 import matplotlib.pyplot as plt
 import numpy as np
+from pathlib import Path
 
 def create_gaussian_plot(save_path="assets/images/gaussian_decay_plot.png"):
     """
@@ -67,11 +68,75 @@ def create_gaussian_plot(save_path="assets/images/gaussian_decay_plot.png"):
             transform=ax.get_xaxis_transform())
     
     plt.tight_layout()
-    plt.savefig(save_path, dpi=300, bbox_inches='tight', pad_inches=0.3)
-    print(f"Gaussian plot saved to {save_path}")
-    plt.close()
+    return fig
+
+def save_outputs(fig, base_name="gaussian_decay_plot"):
+    """Save both static PNG and interactive HTML versions"""
+    output_dir = Path('assets/images')
+    interactive_dir = Path('assets/interactive')
+    
+    # Create directories
+    output_dir.mkdir(parents=True, exist_ok=True)
+    interactive_dir.mkdir(parents=True, exist_ok=True)
+    
+    # Save static PNG
+    png_path = output_dir / f'{base_name}.png'
+    fig.savefig(png_path, dpi=300, bbox_inches='tight', pad_inches=0.3)
+    print(f"✓ Saved static PNG: {png_path}")
+    
+    # Convert and save interactive HTML
+    try:
+        import plotly.tools as tls
+        
+        plotly_fig = tls.mpl_to_plotly(fig)
+        
+        # Enhance with Plotly features
+        plotly_fig.update_layout(
+            hovermode='closest',
+            template='plotly_white',
+            font=dict(size=12),
+            showlegend=True,
+            title=dict(
+                text='Gaussian Weighting Function: Distance-Based Decay',
+                font=dict(size=16, family='Arial, sans-serif')
+            )
+        )
+        
+        # Improve hover information
+        plotly_fig.update_traces(
+            hovertemplate='<b>Position</b>: %{x}<br><b>Weight</b>: %{y:.3f}<extra></extra>'
+        )
+        
+        html_path = interactive_dir / f'{base_name}.html'
+        plotly_fig.write_html(
+            html_path,
+            include_plotlyjs='cdn',  # Use CDN for smaller files
+            config={
+                'displayModeBar': True,
+                'displaylogo': False,
+                'modeBarButtonsToRemove': ['lasso2d', 'select2d'],
+                'toImageButtonOptions': {
+                    'format': 'png',
+                    'filename': base_name,
+                    'height': 600,
+                    'width': 1000,
+                    'scale': 2
+                }
+            }
+        )
+        print(f"✓ Saved interactive HTML: {html_path}")
+        
+    except ImportError:
+        print("⚠️  Plotly not installed. Run: pip install plotly")
+        print("   Keeping static version only")
+    except Exception as e:
+        print(f"⚠️  Plotly conversion failed: {e}")
+        print("   Keeping static version only")
+    
+    plt.close(fig)
 
 if __name__ == "__main__":
-    create_gaussian_plot()
+    fig = create_gaussian_plot()
+    save_outputs(fig)
 
 # Made with Bob

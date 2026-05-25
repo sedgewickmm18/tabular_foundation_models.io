@@ -1,5 +1,6 @@
 import numpy as np
 import matplotlib.pyplot as plt
+from plotly_utils import save_with_plotly
 
 def generate_marginal_effects(n_scms=1000, window=5, positive_only=True):
     """
@@ -53,6 +54,6 @@ plot_functional_space(ax2, x, pos_data, "Positive-Only SCMs (Restricted Prior)",
 ax1.set_ylabel('Effect on $Col B$')
 
 plt.tight_layout()
-plt.savefig('assets/images/marginal_effects.png', dpi=300, bbox_inches='tight')
-print("Diagram saved to assets/images/marginal_effects.png")
+save_with_plotly(fig, 'marginal_effects')
+plt.close()
 

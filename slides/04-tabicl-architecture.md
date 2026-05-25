@@ -67,8 +67,15 @@ TabICL v2 moved away from binning to use Quantile Regression:
 
 </div>
 
-<div style="margin-top: 18px; text-align: center;">
-  <img src="assets/images/compare_loss_functions.png" alt="Comparison of cross-entropy loss and pinball loss" style="max-width: 88%; max-height: 40vh; border: 1px solid #ddd; border-radius: 8px;">
+<div class="plot-container" style="margin-top: 18px;">
+  <iframe src="assets/interactive/compare_loss_functions.html"
+          title="Comparison of cross-entropy loss and pinball loss"
+          style="width: 100%; height: 500px; border: none;">
+    <!-- Fallback for browsers without iframe support -->
+    <img src="assets/images/compare_loss_functions.png"
+         alt="Comparison of cross-entropy loss and pinball loss"
+         style="max-width: 100%; height: auto;">
+  </iframe>
 </div>
 
 <div style="margin-top: 12px; font-size: 0.75em; text-align: center;">

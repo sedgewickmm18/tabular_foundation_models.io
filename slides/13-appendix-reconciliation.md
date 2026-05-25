@@ -31,7 +31,13 @@ Tasks producing similar training data (e.g., near-linear relationships) have hig
 <div class="columns">
 <div class="column" style="flex: 0 0 70%;">
 
-<img src="assets/images/marginal_effects.png" alt="Marginal Effects" style="display: block; margin: 1em auto; max-width: 100%;">
+<div class="plot-container compact">
+  <iframe src="assets/interactive/marginal_effects.html"
+          title="Marginal Effects Analysis"
+          style="width: 100%; height: 100%; border: none;">
+    <img src="assets/images/marginal_effects.png" alt="Marginal Effects">
+  </iframe>
+</div>
 
 </div>
 <div class="column" style="flex: 0 0 30%; border: 2px solid #ccc; padding: 10px; text-align: left; font-size: 0.6em; line-height: 1.2; display: flex; align-items: flex-end; padding-bottom: 30px;margin-top: 5%">
@@ -105,7 +111,13 @@ more memory-efficient, but chunking is still necessary for very large datasets.
 
 <div style="flex: 1.2;">
 
-<img src="assets/images/gaussian_decay_plot.png" alt="Gaussian decay visualization" style="display: block; margin: 0 auto; max-width: 100%;">
+<div class="plot-container compact">
+  <iframe src="assets/interactive/gaussian_decay_plot.html"
+          title="Gaussian Decay Visualization"
+          style="width: 100%; height: 100%; border: none;">
+    <img src="assets/images/gaussian_decay_plot.png" alt="Gaussian decay visualization">
+  </iframe>
+</div>
 
 <div style="font-size: 0.75em; text-align: center; margin-top: 0.5em;">
 <strong>Where:</strong> <em>w<sub>j</sub></em>: weight for window <em>j</em>,
