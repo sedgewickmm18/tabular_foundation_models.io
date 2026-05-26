@@ -14,8 +14,8 @@ tau_list = [0.1, 0.25, 0.5, 0.75, 0.9]
 # X-axis for Cross-Entropy (probability scale)
 prob_range = np.linspace(0.01, 0.99, 100)
 
-# Create the figure with two subplots
-fig, (ax1, ax2) = plt.subplots(1, 2, figsize=(14, 6))
+# Create the figure with two subplots - even smaller size to fit text boxes and diagram on screen
+fig, (ax1, ax2) = plt.subplots(1, 2, figsize=(11, 4.5))
 
 # --- 1. Cross-Entropy Loss Visualization ---
 # In CE, loss is -log(p) for the true class.
@@ -45,10 +45,10 @@ ax1.plot(
     label="Distant Class (e.g., 9.99)",
 )
 
-ax1.set_title("Cross-Entropy Loss Behavior - discretized regression\n(Logarithmic Penalty per Class Bucket)", fontsize=12)
-ax1.set_xlabel("Predicted Probability (ŷ) for the Specific Class")
-ax1.set_ylabel("Loss Value")
-ax1.legend()
+ax1.set_title("Cross-Entropy Loss\n(Logarithmic Penalty)", fontsize=11)
+ax1.set_xlabel("Predicted Probability", fontsize=10)
+ax1.set_ylabel("Loss Value", fontsize=10)
+ax1.legend(loc="upper right", fontsize=8)
 ax1.grid(True, linestyle="--", alpha=0.6)
 
 # --- 2. Pinball Loss Visualization ---
@@ -58,18 +58,18 @@ def pinball(residual, tau):
 
 colors = ["#1f77b4", "#ff7f0e", "#2ca02c", "#d62728", "#9467bd"]
 for t, col in zip(tau_list, colors):
-    lab = f"Tau = {t}"
+    lab = f"τ = {t}"
     if t == 0.1:
-        lab += ", penalize overpredicting"
+        lab += " (penalize over)"
     if t == 0.9:
-        lab += ", penalize underpredicting"
+        lab += " (penalize under)"
     ax2.plot(x_vals, pinball(x_vals, t), label=lab, color=col, lw=2)
 
-ax2.set_title("Pinball Loss (Quantile Regression)\n(Asymmetric Linear Penalty by Distance)", fontsize=12)
-ax2.set_xlabel("Residual (Actual - Predicted)")
-ax2.set_ylabel("Loss Value")
+ax2.set_title("Pinball Loss (Quantile Regression)\n(Asymmetric Linear Penalty)", fontsize=11)
+ax2.set_xlabel("Residual (Actual - Predicted)", fontsize=10)
+ax2.set_ylabel("Loss Value", fontsize=10)
 ax2.axvline(0, color="black", lw=1, alpha=0.5)  # Zero-error line
-ax2.legend(loc="upper center", ncol=2, fontsize="small")
+ax2.legend(loc="upper right", fontsize=8)
 ax2.grid(True, linestyle="--", alpha=0.6)
 
 plt.tight_layout()

@@ -242,10 +242,16 @@ This visualization demonstrates the core concept of Bayesian inference: instead 
 <div class="column">
 
 <div class="plot-container small">
-  <iframe src="assets/interactive/quantile_binning.html"
+  <!-- Interactive Plotly version (commented out due to annotation rendering issues in iframes) -->
+  <!-- <iframe src="assets/interactive/quantile_binning.html"
           title="Quantile Binning Visualization">
     <img src="assets/images/quantile_binning.png" alt="Quantile Binning">
-  </iframe>
+  </iframe> -->
+  
+  <!-- Static PNG version (reliable rendering) -->
+  <img src="assets/images/quantile_binning.png"
+       alt="Quantile Binning Visualization"
+       style="width: 100%; height: auto;">
 </div>
 
 </div>

@@ -331,6 +331,119 @@
             }
         });
         
+        /* ============================================================================
+         * PLOTLY IFRAME FIX - COMMENTED OUT (Using static PNG images instead)
+         * ============================================================================
+         * This code attempted to fix Plotly annotation/legend rendering issues in iframes
+         * by forcing complete plot recreation when slides become visible. However, the
+         * issue persisted due to SVG rendering problems within iframes in Reveal.js.
+         *
+         * Keeping this code for future reference if interactive plots are needed again.
+         * To re-enable: uncomment this section and update slide markdown files to use
+         * the iframe versions instead of static PNG images.
+         * ============================================================================
+         */
+        
+        /*
+        // Fix Plotly iframe rendering issues - force complete redraw when slide becomes visible
+        function redrawPlotlyInIframes(iframes, delay = 0, label = '') {
+            console.log(`[Plotly Fix] Attempting redraw with delay ${delay}ms (${label})`);
+            iframes.forEach((iframe, index) => {
+                setTimeout(() => {
+                    try {
+                        const iframeWindow = iframe.contentWindow;
+                        const iframeDoc = iframe.contentDocument;
+                        
+                        console.log(`[Plotly Fix] Checking iframe ${index}:`, {
+                            hasWindow: !!iframeWindow,
+                            hasPlotly: !!(iframeWindow && iframeWindow.Plotly),
+                            hasDoc: !!iframeDoc
+                        });
+                        
+                        if (iframeWindow && iframeWindow.Plotly && iframeDoc) {
+                            const plotlyDivs = iframeDoc.querySelectorAll('.plotly-graph-div');
+                            console.log(`[Plotly Fix] Found ${plotlyDivs.length} Plotly divs in iframe ${index}`);
+                            
+                            plotlyDivs.forEach((div, divIndex) => {
+                                console.log(`[Plotly Fix] Recreating plot in div ${divIndex} of iframe ${index}`);
+                                
+                                // Store the current plot data, layout, and config
+                                const currentData = div.data;
+                                const currentLayout = JSON.parse(JSON.stringify(div.layout)); // Deep clone
+                                const currentConfig = div._context ? {
+                                    displayModeBar: div._context.displayModeBar,
+                                    displaylogo: div._context.displaylogo,
+                                    modeBarButtonsToRemove: div._context.modeBarButtonsToRemove,
+                                    responsive: div._context.responsive,
+                                    toImageButtonOptions: div._context.toImageButtonOptions
+                                } : {};
+                                
+                                // Purge the existing plot completely
+                                iframeWindow.Plotly.purge(div);
+                                
+                                // Wait a moment for the purge to complete, then recreate
+                                setTimeout(() => {
+                                    iframeWindow.Plotly.newPlot(div, currentData, currentLayout, currentConfig)
+                                        .then(() => {
+                                            console.log(`[Plotly Fix] Successfully recreated plot in div ${divIndex} of iframe ${index}`);
+                                            
+                                            // Log annotation info for verification
+                                            if (div.layout && div.layout.annotations) {
+                                                console.log(`[Plotly Fix] Annotations count: ${div.layout.annotations.length}`);
+                                                div.layout.annotations.forEach((ann, i) => {
+                                                    console.log(`[Plotly Fix] Annotation ${i}:`, {
+                                                        text: ann.text.substring(0, 30) + '...',
+                                                        x: ann.x,
+                                                        y: ann.y,
+                                                        visible: ann.visible !== false
+                                                    });
+                                                });
+                                            }
+                                        })
+                                        .catch(err => {
+                                            console.error(`[Plotly Fix] Error recreating plot:`, err);
+                                        });
+                                }, 50);
+                            });
+                        }
+                    } catch (e) {
+                        console.warn('[Plotly Fix] Could not access iframe:', e.message);
+                    }
+                }, delay);
+            });
+        }
+        
+        // Trigger on slide change
+        Reveal.on('slidechanged', event => {
+            console.log('[Plotly Fix] Slide changed event');
+            const iframes = event.currentSlide.querySelectorAll('iframe');
+            console.log(`[Plotly Fix] Found ${iframes.length} iframes in current slide`);
+            
+            if (iframes.length > 0) {
+                // Immediate attempt
+                redrawPlotlyInIframes(iframes, 0, 'slidechanged-immediate');
+                // Delayed attempt in case iframe wasn't fully loaded
+                redrawPlotlyInIframes(iframes, 300, 'slidechanged-delayed');
+                redrawPlotlyInIframes(iframes, 600, 'slidechanged-delayed2');
+            }
+        });
+        
+        // Trigger on ready for initial slide
+        Reveal.on('ready', event => {
+            console.log('[Plotly Fix] Ready event');
+            const iframes = event.currentSlide.querySelectorAll('iframe');
+            console.log(`[Plotly Fix] Found ${iframes.length} iframes in initial slide`);
+            
+            if (iframes.length > 0) {
+                // Multiple attempts with increasing delays to catch iframe load
+                redrawPlotlyInIframes(iframes, 500, 'ready-500ms');
+                redrawPlotlyInIframes(iframes, 1000, 'ready-1000ms');
+                redrawPlotlyInIframes(iframes, 1500, 'ready-1500ms');
+                redrawPlotlyInIframes(iframes, 2000, 'ready-2000ms');
+            }
+        });
+        */
+        
         // Image Modal Functionality
         Reveal.on('ready', event => {
             // Create modal element

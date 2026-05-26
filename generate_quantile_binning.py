@@ -38,14 +38,29 @@ ax.set_ylabel('Probability Density', fontsize=12)
 ax.legend()
 ax.grid(axis='y', linestyle='--', alpha=0.3)
 
-# Annotate a narrow vs wide bin
-ax.annotate('Narrow Bin: High Resolution', xy=(bin_centers[2], bin_densities[1]),
-            xytext=(bin_centers[1]+1, bin_densities[1]+0.2),
-            arrowprops=dict(facecolor='black', shrink=0.05, width=1))
+# Add a dashed horizontal line at 0.6 density
+ax.axhline(y=0.6, color='red', linestyle='--', linewidth=1.5, alpha=0.7,
+           label='High Density Threshold (0.6)')
 
-# Adjust viewport to make annotation visible
-ax.set_ylim(0, max(bin_densities) * 1.3)
+# Annotate a narrow vs wide bin
+ax.annotate('Narrow Bin:\nHigh Resolution', xy=(bin_centers[2], bin_densities[2]),
+            xytext=(bin_centers[2], bin_densities[2]+0.1),
+            arrowprops=dict(facecolor='black', shrink=0.05, width=1.5, headwidth=8),
+            fontsize=10, ha='center',
+            bbox=dict(boxstyle='round,pad=0.5', facecolor='white', edgecolor='black', alpha=0.9))
+
+ax.annotate('Wide Bin:\nLow Resolution', xy=(bin_centers[-2], bin_densities[-2]),
+            xytext=(bin_centers[-2], bin_densities[-2]+0.1),
+            arrowprops=dict(facecolor='black', shrink=0.05, width=1.5, headwidth=8),
+            fontsize=10, ha='center',
+            bbox=dict(boxstyle='round,pad=0.5', facecolor='white', edgecolor='black', alpha=0.9))
+
+# Set y-axis to 0.7 to show the 0.6 dashed line clearly
+ax.set_ylim(0, 0.7)
 ax.set_xlim(min(bin_edges) - 0.5, max(bin_edges) + 0.5)
+
+# Update legend to include the new line
+ax.legend()
 
 # Save both static and interactive versions
 plt.tight_layout()

@@ -123,15 +123,17 @@ fig.update_xaxes(showgrid=False)
 OUTPUT_DIR.mkdir(parents=True, exist_ok=True)
 INTERACTIVE_DIR.mkdir(parents=True, exist_ok=True)
 
-# Save interactive HTML
+# Save interactive HTML with delayed initialization and fixed responsive mode
 html_path = INTERACTIVE_DIR / "quantile_binning.html"
-fig.write_html(
-    html_path,
+
+# Get the HTML content - disable responsive mode to prevent layout recalculation issues
+html_content = fig.to_html(
     include_plotlyjs='cdn',
     config={
         'displayModeBar': True,
         'displaylogo': False,
         'modeBarButtonsToRemove': ['lasso2d', 'select2d'],
+        'responsive': False,  # Disable responsive to prevent annotation repositioning issues
         'toImageButtonOptions': {
             'format': 'png',
             'filename': 'quantile_binning',
@@ -141,6 +143,29 @@ fig.write_html(
         }
     }
 )
+
+# Fix Quirks Mode by adding proper DOCTYPE
+if not html_content.startswith('<!DOCTYPE html>'):
+    html_content = html_content.replace('<html>', '<!DOCTYPE html>\n<html>', 1)
+
+# Wrap Plotly.newPlot in window.load for better reliability
+html_content = html_content.replace(
+    'if (document.getElementById',
+    '''window.addEventListener('load', function() {
+                    // Wait for iframe to be fully visible
+                    setTimeout(function() {
+                        if (document.getElementById'''
+)
+html_content = html_content.replace(
+    '</script>        </div>',
+    '''}, 100);
+                });
+            </script>        </div>'''
+)
+
+# Write the modified HTML
+with open(html_path, 'w', encoding='utf-8') as f:
+    f.write(html_content)
 print(f"✓ Saved interactive HTML: {html_path}")
 
 # Save static PNG
