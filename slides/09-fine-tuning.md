@@ -172,7 +172,7 @@ We use the California Housing dataset as a practical example. This real-world re
 <img src="assets/images/math/crps_formula.svg" alt="CRPS Formula" style="max-width: 50%; height: auto;">
 
 <div style="font-size: 0.65em; margin-top: 5px;">
-Where **ECDF(y)** = Empirical Cumulative Distribution Function (from bins) and **𝟙(y ≥ y_obs)** = Heaviside step function
+Where **ECDF(y)** = Empirical Cumulative Distribution Function (from bins) and **𝟙(y ≥ y_obs)** = Heaviside step function, the ECDF of the Dirac distribution.
 </div>
 <br>
 
