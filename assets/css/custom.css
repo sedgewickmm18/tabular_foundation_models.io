@@ -36,24 +36,28 @@
 .reveal h1 {
     font-size: 1.8em; /* Reduced from 2.5em */
     color: var(--primary-color);
+    margin-top: 0.1em; /* Minimal top margin for maximum space */
     margin-bottom: 0.3em;
 }
 
 .reveal h2 {
     font-size: 1.4em; /* Reduced from 1.8em */
     color: var(--secondary-color);
+    margin-top: 0.1em; /* Minimal top margin for maximum space */
     margin-bottom: 0.4em;
 }
 
 .reveal h3 {
     font-size: 1.1em; /* Reduced from 1.4em */
     color: var(--accent-color);
+    margin-top: 0.1em; /* Minimal top margin for maximum space */
     margin-bottom: 0.3em;
 }
 
 .reveal h4 {
     font-size: 1em; /* Reduced from 1.2em */
     color: var(--text-color);
+    margin-top: 0.1em; /* Minimal top margin for maximum space */
     margin-bottom: 0.2em;
     font-weight: 600;
 }
@@ -157,7 +161,7 @@
 .reveal blockquote {
     width: 90%;
     margin: 0.5em auto;
-    padding: 0.8em;
+    padding: 0.5em; /* Reduced from 0.8em */
     background: var(--bg-lighter);
     border-left: 4px solid var(--primary-color);
     box-shadow: 0 2px 8px var(--shadow-color);
