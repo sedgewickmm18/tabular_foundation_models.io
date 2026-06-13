@@ -26,12 +26,31 @@
     <div class="reveal">
         <div class="slides">
             <!-- Title Slide -->
-            <section>
+            <section id="title">
                 <h1>Foundation Models for Tables</h1>
                 <h3>TabPFN and TabICL</h3>
                 <p>
                     <small>A Deep Dive into Tabular Foundation Models</small>
                 </p>
+                
+                <div style="margin-top: 60px; padding: 25px; border: 2px solid #3498db; border-radius: 10px; background-color: #f8f9fa; max-width: 600px; margin-left: auto; margin-right: auto;">
+                    <h4 style="margin-top: 0; margin-bottom: 20px; color: #2c3e50;">Table of Contents</h4>
+                    <div style="text-align: left; font-size: 0.8em; line-height: 1.8;">
+                        <ol style="margin: 0; padding-left: 25px;">
+                            <li><a href="#/use-cases">Key Use Cases</a></li>
+                            <li><a href="#/introduction">Paradigm Shift</a></li>
+                            <li><a href="#/tabpfn-architecture">TabPFN Architecture</a></li>
+                            <li><a href="#/tabicl-architecture">TabICL: Enhanced In-Context Learning</a></li>
+                            <li><a href="#/tabimpute">TabImpute</a></li>
+                            <li><a href="#/code-examples">Foundational Models Applied</a></li>
+                            <li><a href="#/fine-tuning">Fine-tuning Foundation Models</a></li>
+                            <li><a href="#/benchmarks">Performance Benchmarks</a></li>
+                            <li><a href="#/recent-developments">Recent Developments</a></li>
+                            <li><a href="#/appendix">Appendix</a></li>
+                        </ol>
+                    </div>
+                </div>
+                
                 <aside class="notes">
                     Welcome to this presentation on foundation models for tabular data.
                     We'll explore TabPFN and its successor TabICL, focusing on their
@@ -40,63 +59,63 @@
             </section>
             
             <!-- Use Cases Section -->
-            <section data-markdown="slides/01-use-cases.md"
+            <section id="use-cases" data-markdown="slides/01-use-cases.md"
                      data-separator="^\n---\n$"
                      data-separator-vertical="^\n--\n$"
                      data-separator-notes="^Note:">
             </section>
             
             <!-- Introduction Section -->
-            <section data-markdown="slides/02-introduction.md"
+            <section id="introduction" data-markdown="slides/02-introduction.md"
                      data-separator="^\n---\n$"
                      data-separator-vertical="^\n--\n$"
                      data-separator-notes="^Note:">
             </section>
             
             <!-- TabPFN Architecture Section -->
-            <section data-markdown="slides/03-tabpfn-architecture.md"
+            <section id="tabpfn-architecture" data-markdown="slides/03-tabpfn-architecture.md"
                      data-separator="^\n---\n$"
                      data-separator-vertical="^\n--\n$"
                      data-separator-notes="^Note:">
             </section>
             
             <!-- TabICL Architecture Section -->
-            <section data-markdown="slides/04-tabicl-architecture.md"
+            <section id="tabicl-architecture" data-markdown="slides/04-tabicl-architecture.md"
                      data-separator="^\n---\n$"
                      data-separator-vertical="^\n--\n$"
                      data-separator-notes="^Note:">
             </section>
             
             <!-- TabImpute Section -->
-            <section data-markdown="slides/05-tabimpute.md"
+            <section id="tabimpute" data-markdown="slides/05-tabimpute.md"
                      data-separator="^\n---\n$"
                      data-separator-vertical="^\n--\n$"
                      data-separator-notes="^Note:">
             </section>
             
             <!-- Code Examples Section -->
-            <section data-markdown="slides/07-code-examples.md"
+            <section id="code-examples" data-markdown="slides/07-code-examples.md"
                      data-separator="^\n---\n$"
                      data-separator-vertical="^\n--\n$"
                      data-separator-notes="^Note:">
             </section>
             
             <!-- Fine-tuning Section -->
-            <section data-markdown="slides/09-fine-tuning.md"
+            <section id="fine-tuning" data-markdown="slides/09-fine-tuning.md"
                      data-separator="^\n---\n$"
                      data-separator-vertical="^\n--\n$"
                      data-separator-notes="^Note:">
             </section>
             
             <!-- Benchmarks Section -->
-            <section data-markdown="slides/10-benchmarks.md"
+            <section id="benchmarks" data-markdown="slides/10-benchmarks.md"
                      data-separator="^\n---\n$"
                      data-separator-vertical="^\n--\n$"
                      data-separator-notes="^Note:">
             </section>
             
             <!-- Limitations Section -->
-            <section data-markdown="slides/11-limitations.md"
+            <section id="recent-developments" data-markdown="slides/11-limitations.md"
                      data-separator="^\n---\n$"
                      data-separator-vertical="^\n--\n$"
                      data-separator-notes="^Note:">
@@ -110,7 +129,7 @@
             </section>
             
             <!-- Appendix Benchmarks Section -->
-            <section data-markdown="slides/12-appendix-benchmarks.md"
+            <section id="appendix" data-markdown="slides/12-appendix-benchmarks.md"
                      data-separator="^\n---\n$"
                      data-separator-vertical="^\n--\n$"
                      data-separator-notes="^Note:">
