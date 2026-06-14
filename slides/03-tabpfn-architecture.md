@@ -169,12 +169,16 @@ Structural Causal Models (SCMs) provide a principled way to generate diverse syn
 <!-- Left box: KL Divergence Decomposition -->
 <div style="flex: 1; border: 2px solid #2D6A4F; padding: 15px; text-align: center; font-size: 0.65em; line-height: 1.2; background-color: #F0FFF4;">
 
-<h3 style="margin-top: 0; font-size: 1.1em; color: #2D6A4F;">KL Divergence = NLL - Entropy</h3>
+<h3 style="margin-top: 0; font-size: 1.1em; color: #2D6A4F;">How NLL, KL Divergence, Cross Entropy and Entropy are connected*</h3>
 
 <img src="assets/images/kl_nll_entropy_diagram.png" alt="KL Divergence Decomposition" style="max-width: 100%; height: auto;">
 
 <p style="margin-top: 10px; text-align: left;">
 <strong>Key Insight:</strong> Minimizing NLL (cross-entropy) is equivalent to minimizing reverse KL divergence D<sub>KL</sub>(p || q) because the entropy H(p) is constant.
+</p>
+
+<p style="margin-top: 10px; text-align: left; font-size: 0.9em; font-style: italic;">
+*LogSoftmax → NLL Loss ~ raw logits → Cross Entropy
 </p>
 
 </div>
