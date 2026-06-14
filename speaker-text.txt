@@ -1,0 +1,101 @@
+
+Intro
+We would like to talk about foundation models for tables, 
+* what they are good for, 
+* how they work,
+* when to use or rather not use them
+* how to deploy them and make them work - in the cases where it makes sense
+* how to fine-tune them for particular use cases
+
+BTW, kudos to Bob to turn my sometimes lengthy descriptions into matplotlibs figures and slide layouts.
+
+Use cases:
+
+Tabular models deal with - no surprise here - tabular data.
+Major use cases are 
+* 'imputation', filling gaps while preserving cross row/cross column relationships, and doing this with an assessment of confidence level (80% probability)
+* 'anomaly scoring', identify unusual patterns, fishy stuff,
+
+The work zero shot, based on in context learning like LLMs, rather than training, without hyper-parameter tuning
+
+Paradigm shift:
+
+Because of these capabilities foundation models in general allow for a paradigm shift in data analysis. The standard method of data analysis, CRISP-DM
+(CRoss Industry Standard Process for Data Mining) proposes six stages from business understanding to model deployment and foundation models allow to put
+more focus on the business side and less on technical data prep/model selection steps.
+
+TabPFN architecture:
+
+This is the grandfather of foundation models for tabular data, and many of its feature still show up in more recent models.
+
+* Architecture components
+There are notable similarities to the much better known LLMs, for example GPT-2. The tokenizing step is replaced with input encoding including blanks for missing entries and position data. Then we have 12 transformer blocks and finally a decoder layer to deliver classification.
+
+* TabPFN transformer architecture:
+We don't have to go into all the details here; it suffices to say that TabPFN makes use of 2-dimensional attention, in the direction of features (across columns) and then the direction of data points (across rows). Note the similarity to Vision model where this approach is called Axial attention (see Axial-DeepLab) or Time series where you find it as Temporal & Channel Decomposition (Tiny Time Mixers follow this approach although they use gated attention, a light-weight alternative to true attention.)
+
+* Training on Synthetic Data
+While LLMs, time series and vision foundation models train mostly with real-life data, suitable tabular data is scarce and too focused on particular use cases so that the trained model might overfit.
+Hence synthetic data is generated with the SCM process, first build a DAG how particular row/column combinations depend on each other: Set the parent nodes randomly and for each child node select an operator, for example x squared or sine, plus some noise. Generate a few 100 entries that way, then proceed to the next DAG.
+
+* Loss function: Predictive posterior distribution
+
+We mostly focus on negative log likelihood loss, a typical loss function for classification. It's roughly equivalent (see the footnote) to cross entropy as a measure for 'mixing up', i.e. how likely the model selects the wrong class. Since the true distribution is constant, cross entropy optimization is equivalent to minimizing reverse KL divergence. This means the model tries to come as close to the true distribution - and it tries to be true to the modes (bumps) as the 2nd figure shows.
+
+* Posterior Predictive Distribution - a Bayesian RANSAC like example
+instead of full tasks we only allow linear operators, we don't have a transformer model, but conflate 30 models with tasks and directly compute the PPD from it and use it to compute f(4.5). Random sample consensus (RANSAC) works iteratively by fitting a line through a subset and to agree on with outliers to ditch by consensus.
+
+* Binning - how a classifier can do regression
+So far we have been talking about classification. With some tweaking a classifier can be turned into a regressor: in the most simple case cut the number space into intervals, each interval counts as a class. The resolution of this TabPFN v1 approach is a bit limited, so further incarnations resorted to variable/quantile binning with broad bins where nothing important happens and narrow bins with high variability.
+
+
+TabICL: Enhanced In-Context Learning:
+We jump over it in the interest of time
+
+
+Foundational models applied:
+Let's look into to
+* When to use tabular foundation models and when not - Hint: It won't guess your bank account number
+* what to do when we have too much data.
+* Chunking and how to reconcile predictions with different context - remember Foundation models are in context learners
+* Ontology - when we know more about the semantics of the data
+
+* When tabular foundation models work well
+For obvious reasons, tabular foundation models only work well if there are enough intrinsic dependencies in the data set. Time series data is a typical examples, but breast cancer data set - generated data from imaging + feature engineering (shape -> wavelet -> histogram) is another. (https://pmc.ncbi.nlm.nih.gov/articles/PMC12290387/)
+What doesn't work are address books.
+
+* On Tabular and Time Series Data
+Tabular data and Time Series data are equivalent (for real numbers): tabular data represents the frequency space, time series data the time space. FFT transforms the latter into the former, IFFT reverses the process.
+Of course the assumption is that the tabular data has some canonical ordering and is real valued.
+
+* Chunking strategies - when passing all data is computationally infeasible
+If you have more data than your process can digest you have to slice it and run prediction for each slice. Because predictions depend on context they depend on how you slice the data. To avoid that we propose sliding windows: you still get varying predictions, even for the same missing value, but you can reconcile these predictions
+
+Reconciliation: Log-Opinion Pool
+* Use a weighted sum - weight depending on distance to the interval/window border - of the logits as voting input.
+
+Tabular Foundation Models and Ontology
+* The example to the right shows typical rental related business terms representing the rental related ontology: Here the
+Domain structure is well-defined, Feature relationships are understood,  Semantic meaning is clear,  Entity definitions are established
+
+Feature Engineering and Selection Based on Ontology
+Basically tabular models to better with less features, knowing the ontology allows to drop features if we KNOW they do not contribute
+Then, if required, we can run further feature engineer and use traditional techniques like 
+PCA (Principle component analysis - what contributes most to numerical columns) and MCA (Multiple correspondence analysis) to reduce data more
+
+
+
+Fine-tuning Approaches: Detailed Comparison:
+Let's do it in a separate session in case of interest
+
+
+Performance Benchmarks
+Jump over it
+
+Recent Developments
+SAP has just acquired Prior Labs, the team developing TabPFN. This indicates some business value for foundation models for tabular data.
+
+
+
+
+

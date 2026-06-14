@@ -2,6 +2,8 @@
 ## Fine-tuning Foundation Models
 ### Domain Adaptation Strategies
 
+📓 **Complete Example**: [`finetune_tabpfn_california_housing.ipynb`](https://github.com/sedgewickmm18/tabular_foundation_models.io/blob/main/examples/finetune_tabpfn_california_housing.ipynb)
+
 <div style="display: flex; gap: 20px; align-items: flex-start;">
 
 <!-- Left column: When to Fine-tune -->
@@ -334,7 +336,7 @@ finetuned_reg.fit(X_train, y_train)
 
 <div style="margin-top: 10px; padding: 8px; background-color: #DBEAFE; border-left: 4px solid #1E40AF; font-size: 0.65em;">
 
-📓 **Complete Example**: See full implementation in [`examples/finetune_tabpfn_california_housing.ipynb`](examples/finetune_tabpfn_california_housing.ipynb) with training history tracking, visualization, and detailed evaluation.
+📓 **Complete Example**: See full implementation in [`examples/finetune_tabpfn_california_housing.ipynb`](https://github.com/sedgewickmm18/tabular_foundation_models.io/blob/main/examples/finetune_tabpfn_california_housing.ipynb) with training history tracking, visualization, and detailed evaluation.
 
 </div>
 
