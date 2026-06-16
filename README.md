@@ -4,7 +4,7 @@ A comprehensive reveal.js presentation exploring foundation models for tabular d
 
 ## 🌐 Live Demo
 
-**[View Presentation](https://[your-username].github.io/[repo-name]/)**
+**[View Presentation](https://sedgewickmm18.github.io/tabular_foundation_models.io/)**
 
 > Replace `[your-username]` and `[repo-name]` with your actual GitHub username and repository name.
 
