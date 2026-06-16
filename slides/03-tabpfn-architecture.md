@@ -209,21 +209,19 @@ The loss function is the heart of TabPFN's training process. By minimizing the n
 <!-- Vertical Slide: Binning for Regression -->
 ## Binning - how a classifier can do regression
 
-<div class="columns">
-<div class="column">
-
-<div class="plot-container small">
+<div class="columns columns-match">
+<div class="column column-plot">
   <!-- Interactive Plotly version (commented out due to annotation rendering issues in iframes) -->
   <!-- <iframe src="assets/interactive/quantile_binning.html"
           title="Quantile Binning Visualization">
     <img src="assets/images/quantile_binning.png" alt="Quantile Binning">
   </iframe> -->
   
-  <!-- Static PNG version (reliable rendering) -->
+  <!-- Static PNG version (reliable rendering).
+       Sized/centered via .columns-match / .column-plot (assets/css/custom.css):
+       vertically centered against the text box and never taller than it. -->
   <img src="assets/images/quantile_binning.png"
-       alt="Quantile Binning Visualization"
-       style="width: 100%; height: auto;">
-</div>
+       alt="Quantile Binning Visualization">
 
 </div>
 <div class="column" style="font-size: 0.75em; border: 2px solid #ccc; padding: 15px; text-align: left;">

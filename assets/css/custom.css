@@ -299,6 +299,49 @@
     flex: 1;
 }
 
+/* "Matched" two-column layout (e.g. a plot aligned to a text box).
+   The row height is governed by the text-box column: the plot image is taken
+   out of the normal flow, so it is always vertically centered against the text
+   box AND never rendered taller than it (on very wide viewports it shrinks in
+   height instead of overflowing). Hover (click-to-zoom) behaviour is preserved. */
+.reveal .columns.columns-match {
+    align-items: stretch;                 /* plot column stretched to text-box height */
+}
+
+.reveal .columns-match .column-plot {
+    position: relative;                   /* positioning context for the image */
+    min-width: 0;
+}
+
+.reveal .columns-match .column-plot > img {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);     /* center on both axes */
+    width: auto;
+    height: auto;
+    max-width: 100%;                      /* never wider than its column */
+    max-height: 100%;                     /* never taller than the text box */
+}
+
+/* Preserve the global click-to-zoom hover zoom, combined with the centering. */
+.reveal .columns-match .column-plot > img:hover {
+    transform: translate(-50%, -50%) scale(1.02);
+}
+
+/* When the columns stack on small screens, let the image flow normally again. */
+@media screen and (max-width: 768px) {
+    .reveal .columns-match .column-plot > img,
+    .reveal .columns-match .column-plot > img:hover {
+        position: static;
+        top: auto;
+        left: auto;
+        transform: none;
+        width: 100%;
+        max-height: none;
+    }
+}
+
 /* Image styling */
 .reveal img {
     border: 1px solid var(--border-color);
